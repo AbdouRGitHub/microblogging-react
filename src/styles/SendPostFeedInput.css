@@ -1,0 +1,40 @@
+.wrap-input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(229, 227, 221);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.input-post {
+    background-color: rgba(229, 227, 221);
+    border: none;
+    height: 2rem;
+    padding: 0.5rem;
+    user-select: none;
+    border-radius: 10px;
+}
+.input-post:focus {
+    outline: none;
+
+}
+
+.send-post-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    border: none;
+    width: 2rem;
+    height: 1.5rem;
+    cursor: pointer;
+    margin-right: 0.5rem;
+}
+
+.send-post-btn img {
+    width: 50%;
+    height: 50%;
+    object-fit: contain;
+}
