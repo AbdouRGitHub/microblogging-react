@@ -1,9 +1,9 @@
-import "./styles/HomeFeed.css"
-import SendPostFeedInput from "./components/SendPostFeedInput.tsx";
-import PostFeedCard from "./components/PostFeedCard.tsx";
-import NavigationHeader from "./components/NavigationHeader.tsx";
-import type {Post} from "./models/post.model.ts";
-import {postsMock} from "./mocks/post.mock.ts";
+import "../styles/HomeFeed.css"
+import FeedPostEditor from "../components/FeedPostEditor.tsx";
+import PostFeedCard from "../components/PostFeedCard.tsx";
+import NavigationHeader from "../components/NavigationHeader.tsx";
+import type {Post} from "../models/post.model.ts";
+import {postsMock} from "../mocks/post.mock.ts";
 
 function HomeFeed() {
     const posts: Post[] = postsMock;
@@ -13,7 +13,7 @@ function HomeFeed() {
                 <NavigationHeader/>
                 <main className="content">
                     <div className="wrap-content">
-                        <SendPostFeedInput/>
+                        <FeedPostEditor/>
                         <div className="feed">
                             {
                                 posts.map((post) => (

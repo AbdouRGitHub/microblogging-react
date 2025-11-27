@@ -1,7 +1,7 @@
 import "../styles/SendPostFeedInput.css"
 import {Send} from "lucide-react";
 
-function SendPostFeedInput() {
+function FeedPostEditor() {
     return (
         <div className="wrap-input">
             <input type="text" className="input-post" size={50} placeholder="QUOI DE NEUF?"/>
@@ -12,4 +12,4 @@ function SendPostFeedInput() {
     )
 }
 
-export default SendPostFeedInput;
+export default FeedPostEditor;
