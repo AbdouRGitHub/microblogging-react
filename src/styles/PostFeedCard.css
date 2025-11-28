@@ -47,3 +47,9 @@
     column-gap: 0.5rem;
 }
 
+.post-feed-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+

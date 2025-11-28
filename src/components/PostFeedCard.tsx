@@ -2,7 +2,8 @@ import "../styles/PostFeedCard.css";
 import {formatShortDate} from "../utils/formatShortDate";
 import {Ellipsis, MessageSquare} from "lucide-react";
 
-function PostFeedCard({content, avatarSrc, username, createdAt}: {
+function PostFeedCard({id, content, avatarSrc, username, createdAt}: {
+    id: string,
     content: string,
     username: string,
     avatarSrc: string,

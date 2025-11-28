@@ -11,19 +11,25 @@ function HomeFeed() {
                     <FeedPostEditor/>
                     <div className="feed">
                         {
-                            postsMock.map((post) => (
-                                <PostFeedCard key={post.id} content={post.content} username={post.account.username}
-                                              avatarSrc={post.account.avatarUrl}
-                                              createdAt={
-                                                  post.createdAt
-                                              }/>
-                            ))
+                            postsMock.map((post) => {
+                                return (
+                                    <PostFeedCard
+                                        key={post.id}
+                                        id={post.id}
+                                        content={post.content}
+                                        username={post.account.username}
+                                        avatarSrc={post.account.avatarUrl}
+                                        createdAt={post.createdAt}
+                                    />
+                                );
+                            })
                         }
                     </div>
                 </div>
             </main>
         </>
-    );
+    )
+        ;
 }
 
 export default HomeFeed;
