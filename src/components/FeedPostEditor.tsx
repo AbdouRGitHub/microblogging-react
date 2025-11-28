@@ -1,4 +1,4 @@
-import "../styles/SendPostFeedInput.css"
+import "../styles/FeedPostEditor.css"
 import {Send} from "lucide-react";
 
 function FeedPostEditor() {
