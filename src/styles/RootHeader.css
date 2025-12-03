@@ -9,7 +9,7 @@
     position: sticky;
     top: 0;
     border-bottom: 1px solid rgba(159, 159, 159, 0.37);
-    z-index: 2;
+    z-index: 10;
 }
 
 .start {

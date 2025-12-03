@@ -5,6 +5,7 @@ import HomeFeed from "./pages/HomeFeed.tsx";
 import {BrowserRouter, Route, Routes} from "react-router";
 import PostDetails from "./pages/PostDetails.tsx";
 import RootLayout from "./components/RootLayout.tsx";
+import Profile from "./pages/Profile.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById('root')!).render(
                     <Route path="post">
                         <Route path=":id" element={<PostDetails/>}/>
                     </Route>
+                    <Route path=":userId" element={<Profile/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

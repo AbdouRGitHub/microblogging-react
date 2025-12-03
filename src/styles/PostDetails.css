@@ -1,0 +1,128 @@
+.content {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.wrap-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+    max-width: 50rem;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 3rem;
+
+}
+
+.post-header-title {
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+}
+
+.back-link {
+    font-size: 50%;
+    text-decoration: none;
+    color: inherit;
+    align-items: center;
+}
+.post-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    width: 100%;
+    padding: 8px 8px 0 8px;
+    row-gap: 1rem;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.post-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.post-card-header-title {
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+}
+
+.post-card-header img {
+    width: 2rem;
+}
+
+.post-card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    row-gap: 0.5rem;
+}
+.post-content {
+
+}
+
+.post-time {
+    color: grey;
+    font-size: 0.8rem;
+}
+.post-card-footer {
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    column-gap: 2rem;
+}
+
+.post-comment-btn {
+    display: flex;
+    align-items: center;
+    background-color: inherit;
+    gap: 0.5rem;
+    border: none;
+    font-size: 1rem;
+    border-radius: 30%;
+    color: grey;
+}
+
+.post-comment-btn-icon:hover {
+    color: #74BEDB;
+    cursor: pointer;
+    fill: #74BEDB;
+}
+
+.post-like-btn {
+    display: flex;
+    align-items: center;
+    background-color: inherit;
+    gap: 0.5rem;
+    border: none;
+    font-size: 1rem;
+    border-radius: 30%;
+    color: grey;
+}
+
+.post-like-btn-icon:hover {
+    color: #FE7918;
+    cursor: pointer;
+    fill: #FE7918;
+}

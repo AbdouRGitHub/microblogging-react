@@ -7,7 +7,7 @@ function RootHeader() {
             <header className="header">
                 <a href="#" className="start">
                     <img
-                        src="logo.svg"
+                        src="/logo.svg"
                         alt="logo"
                         className="logo-img"
                     />

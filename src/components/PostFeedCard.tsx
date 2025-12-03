@@ -1,6 +1,7 @@
 import "../styles/PostFeedCard.css";
 import {formatShortDate} from "../utils/formatShortDate";
 import {Ellipsis, MessageSquare} from "lucide-react";
+import {Link} from "react-router";
 
 function PostFeedCard({id, content, avatarSrc, username, createdAt}: {
     id: string,
@@ -13,7 +14,9 @@ function PostFeedCard({id, content, avatarSrc, username, createdAt}: {
         <article className="post-feed-card">
             <div className="post-feed-card-header">
                 <div className="post-feed-card-header-title">
-                    <img src={avatarSrc} alt="avatar"/>
+                    <Link to={`${id}`} className="post-feed-card-avatar">
+                        <img src={avatarSrc} alt="avatar"/>
+                    </Link>
                     <p> {username} <span
                         style={{color: 'grey', fontSize: 'small'}}> . {formatShortDate(new Date(createdAt))}</span></p>
                 </div>
@@ -21,9 +24,11 @@ function PostFeedCard({id, content, avatarSrc, username, createdAt}: {
                     <Ellipsis size={12}/>
                 </div>
             </div>
-            <p className="post-feed-card-content">
-                {content}
-            </p>
+            <Link to={`post/${id}`} className="post-comment-link">
+                <p className="post-feed-card-content">
+                    {content}
+                </p>
+            </Link>
             <div className="post-feed-card-footer">
                 <MessageSquare size={12} strokeWidth={2} color="#74BEDB"/>
                 <p style={{color: 'grey', fontSize: 'smaller'}}>1</p>

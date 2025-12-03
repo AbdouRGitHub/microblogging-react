@@ -22,6 +22,7 @@
     height: 2rem;
     margin-bottom: 0.5rem;
 }
+
 .post-feed-card-header-title {
     display: flex;
 }
@@ -29,7 +30,6 @@
 .post-feed-card-header img {
     width: 2rem;
     margin-right: 0.5rem;
-
 }
 
 .post-feed-card-content {
@@ -47,9 +47,9 @@
     column-gap: 0.5rem;
 }
 
-.post-feed-card-link {
+.post-comment-link {
+    align-self: flex-start;
     display: block;
     text-decoration: none;
     color: inherit;
 }
-
