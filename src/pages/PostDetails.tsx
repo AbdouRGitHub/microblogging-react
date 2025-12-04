@@ -27,7 +27,7 @@ function PostDetails() {
                     <div className="post-section">
                         <div className="post-card-header">
                             <div className="post-card-header-title">
-                                <Link to={`${id}`} className="post-feed-card-avatar">
+                                <Link to={`/${post?.account.id}`} className="post-feed-card-avatar">
                                     <img src={post?.account.avatarUrl} alt="avatar"/>
                                 </Link>
                                 <p>
@@ -56,8 +56,16 @@ function PostDetails() {
                             </button>
                         </div>
                     </div>
-                </div>
-                <div className="comments-section">
+                    <div className="comments-section">
+                        <div className="post-comment-editor">
+                            <textarea name="post-comment-textarea" className="post-comment-editor-textarea"
+                                      placeholder="Qu'en pense tu ?"
+                            />
+                            <div>
+                                <button>Envoyer</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
