@@ -132,6 +132,7 @@
     justify-content: center;
     align-items: flex-start;
     width: 100%;
+    padding: 8px 8px 0 8px;
 }
 
 .post-comment-editor {
@@ -144,6 +145,7 @@
     row-gap: 1rem;
     padding: 0.5rem;
     border-bottom: 1px solid rgba(159, 159, 159, 0.37);
+    margin-bottom: 1rem;
 }
 
 .post-comment-editor-textarea {
@@ -165,5 +167,19 @@
     padding: 0.2rem 0.5rem;
     border: none;
     cursor: pointer;
-
 }
+
+.post-comment-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.post-comment-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+

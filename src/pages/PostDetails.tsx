@@ -5,13 +5,13 @@ import "../styles/PostDetails.css";
 import {ArrowLeft, MessageSquare, Heart} from "lucide-react";
 import {format} from "date-fns";
 import {fr} from "date-fns/locale";
+import PostFeedCard from "../components/PostFeedCard.tsx";
 
 function PostDetails() {
     const {id} = useParams();
     const post = postsMock.find(p => p.id === id);
     const comments = commentsMock.filter(c => c.post.id === id);
-    console.log("post: ", post);
-    console.log("comments: ", comments);
+    console.log("id: ", id);
     return (
         <>
             <div className="content">
@@ -40,8 +40,8 @@ function PostDetails() {
                                 <p>{post?.content}</p>
                             </div>
                             <div>
-                                <p className="post-time"> Posté
-                                    le {format(new Date(post?.createdAt || 'null'), "dd MMMM yyyy, hh:mm", {locale: fr})}
+                                <p className="post-time"> Posté le
+                                    {post?.createdAt ? format(new Date(post?.createdAt), "dd MMMM yyyy, hh:mm", {locale: fr}) : null}
                                 </p>
                             </div>
                         </div>
@@ -64,6 +64,13 @@ function PostDetails() {
                             <div>
                                 <button>Envoyer</button>
                             </div>
+                        </div>
+                        <div className="post-comment-list">
+                            {comments.map(comment => (
+                                <PostFeedCard id={comment.id} key={comment.id} content={comment.content}
+                                              username={comment.account.username} avatarSrc={comment.account.avatarUrl}
+                                              createdAt={comment.createdAt}/>
+                            ))}
                         </div>
                     </div>
                 </div>
