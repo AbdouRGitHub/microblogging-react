@@ -1,5 +1,6 @@
 import '../styles/RootHeader.css';
 import {Bookmark, House, Settings} from "lucide-react";
+import {NavLink} from "react-router";
 
 function RootHeader() {
     return (
@@ -13,9 +14,17 @@ function RootHeader() {
                     />
                 </a>
                 <nav className="middle">
-                    <House color="grey"/>
-                    <Settings color="grey"/>
-                    <Bookmark color="grey"/>
+                    <NavLink to="/" end={true}>
+                        {({isActive}) => (
+                            <House className={isActive ? "active-link" : ""}/>
+                        )}
+                    </NavLink>
+                    <NavLink to="#">
+                        <Settings color="grey"/>
+                    </NavLink>
+                    <NavLink to="#">
+                        <Bookmark color="grey"/>
+                    </NavLink>
                 </nav>
                 <div className="end">
                     <div className="user-container">
