@@ -14,7 +14,7 @@ function PostFeedCard({id, content, avatarSrc, username, createdAt}: {
         <article className="post-feed-card">
             <div className="post-feed-card-header">
                 <div className="post-feed-card-header-title">
-                    <Link to={`${id}`} className="post-feed-card-avatar">
+                    <Link to={`/${id}`} className="post-feed-card-avatar">
                         <img src={avatarSrc} alt="avatar"/>
                     </Link>
                     <p> {username} <span
@@ -24,7 +24,8 @@ function PostFeedCard({id, content, avatarSrc, username, createdAt}: {
                     <Ellipsis size={12}/>
                 </div>
             </div>
-            <Link to={`post/${id}`} className="post-comment-link">
+            <Link to={`/post/${id}`}
+                  className="post-comment-link">
                 <p className="post-feed-card-content">
                     {content}
                 </p>
