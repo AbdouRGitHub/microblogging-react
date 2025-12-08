@@ -4,7 +4,7 @@ import './assets/index.css'
 import HomeFeed from "./pages/HomeFeed.tsx";
 import {BrowserRouter, Route, Routes} from "react-router";
 import PostDetails from "./pages/PostDetails.tsx";
-import RootLayout from "./components/RootLayout.tsx";
+import RootLayout from "./layout/RootLayout.tsx";
 import Profile from "./pages/Profile.tsx";
 
 createRoot(document.getElementById('root')!).render(
