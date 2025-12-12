@@ -1,6 +1,6 @@
 import '../styles/RootHeader.css';
-import {Bookmark, House, Settings} from "lucide-react";
-import {NavLink} from "react-router";
+import {Bookmark, House} from "lucide-react";
+import {Link, NavLink} from "react-router";
 
 function RootHeader() {
     return (
@@ -20,15 +20,14 @@ function RootHeader() {
                         )}
                     </NavLink>
                     <NavLink to="#">
-                        <Settings color="grey"/>
-                    </NavLink>
-                    <NavLink to="#">
                         <Bookmark color="grey"/>
                     </NavLink>
                 </nav>
                 <div className="end">
                     <div className="user-container">
-                        <img src="https://picsum.photos/id/237/200/300" alt="avatar"/>
+                        <Link to="#" className="user-link">
+                            <img src="https://picsum.photos/id/237/200/300" alt="avatar"/>
+                        </Link>
                     </div>
                 </div>
             </header>

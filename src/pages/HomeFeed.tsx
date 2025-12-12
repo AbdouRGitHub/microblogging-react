@@ -7,7 +7,7 @@ function HomeFeed() {
     return (
         <>
             <main className="content">
-                <div className="wrap-content">
+                <div className="HomeFeed-wrap-content">
                     <FeedPostEditor/>
                     <div className="feed">
                         {
@@ -16,6 +16,7 @@ function HomeFeed() {
                                     <PostFeedCard
                                         key={post.id}
                                         id={post.id}
+                                        userId={post.account.id}
                                         content={post.content}
                                         username={post.account.username}
                                         avatarSrc={post.account.avatarUrl}

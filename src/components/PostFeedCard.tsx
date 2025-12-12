@@ -3,18 +3,20 @@ import {formatShortDate} from "../utils/formatShortDate";
 import {Ellipsis, MessageSquare} from "lucide-react";
 import {Link} from "react-router";
 
-function PostFeedCard({id, content, avatarSrc, username, createdAt}: {
+function PostFeedCard({id, userId, content, avatarSrc, username, createdAt, width = "80%"}: {
     id: string,
+    userId: string,
     content: string,
     username: string,
     avatarSrc: string,
-    createdAt: string
+    createdAt: string,
+    width?: string
 }) {
     return (
-        <article className="post-feed-card">
+        <article className="post-feed-card" style={{width: `${width}`}}>
             <div className="post-feed-card-header">
                 <div className="post-feed-card-header-title">
-                    <Link to={`/${id}`} className="post-feed-card-avatar">
+                    <Link to={`/${userId}`} className="post-feed-card-avatar">
                         <img src={avatarSrc} alt="avatar"/>
                     </Link>
                     <p> {username} <span

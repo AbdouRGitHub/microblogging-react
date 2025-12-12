@@ -51,23 +51,14 @@ a {
 }
 
 .end {
+    display: flex;
+    justify-content: center;
     margin-right: 2rem;
     margin-left: 2rem;
 }
 
-.user-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: whitesmoke;
-    padding: 0.2rem;
-    border-radius: 2rem;
-    margin: auto;
-}
-
 .user-container img {
     background-color: whitesmoke;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 2rem;
+    width: 2.5rem;
+    height: 2.5rem;
 }

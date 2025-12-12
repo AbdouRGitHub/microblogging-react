@@ -14,8 +14,8 @@ function PostDetails() {
 
     return (
         <>
-            <div className="content">
-                <div className="wrap-content">
+            <main className="content">
+                <div className="PostDetails-wrap-content">
                     <div className="post-header">
                         <div className="post-header-title">
                             <a onClick={() => {
@@ -69,14 +69,15 @@ function PostDetails() {
                         </div>
                         <div className="post-comment-list">
                             {post?.replies?.map(comment => (
-                                <PostFeedCard id={comment.id} key={comment.id} content={comment.content}
+                                <PostFeedCard id={comment.id} userId={comment.account.id} key={comment.id}
+                                              content={comment.content}
                                               username={comment.account.username} avatarSrc={comment.account.avatarUrl}
-                                              createdAt={comment.createdAt}/>
+                                              createdAt={comment.createdAt} width={"100%"}/>
                             ))}
                         </div>
                     </div>
                 </div>
-            </div>
+            </main>
         </>
     )
 }
