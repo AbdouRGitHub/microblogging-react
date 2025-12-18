@@ -5,6 +5,7 @@ import {ArrowLeft, MessageSquare, Heart} from "lucide-react";
 import {format} from "date-fns";
 import {fr} from "date-fns/locale";
 import PostFeedCard from "../components/PostFeedCard.tsx";
+import {faker} from "@faker-js/faker";
 
 function PostDetails() {
     const {id} = useParams();
@@ -30,7 +31,7 @@ function PostDetails() {
                         <div className="post-card-header">
                             <div className="post-card-header-title">
                                 <Link to={`/${post?.account.id}`} className="post-feed-card-avatar">
-                                    <img src={post?.account.avatarUrl} alt="avatar"/>
+                                    <img src={faker.image.avatar()} alt="avatar"/>
                                 </Link>
                                 <p>
                                     <span>{post?.account.username} </span>
@@ -71,7 +72,7 @@ function PostDetails() {
                             {post?.replies?.map(comment => (
                                 <PostFeedCard id={comment.id} userId={comment.account.id} key={comment.id}
                                               content={comment.content}
-                                              username={comment.account.username} avatarSrc={comment.account.avatarUrl}
+                                              username={comment.account.username}
                                               createdAt={comment.createdAt} width={"100%"}/>
                             ))}
                         </div>

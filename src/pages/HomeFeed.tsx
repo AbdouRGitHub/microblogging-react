@@ -1,9 +1,54 @@
 import "../styles/HomeFeed.css"
 import FeedPostEditor from "../components/FeedPostEditor.tsx";
 import PostFeedCard from "../components/PostFeedCard.tsx";
-import {postsMock} from "../mocks/post.mock.ts";
+import {useInfiniteQuery} from "@tanstack/react-query";
+import {getLatestPosts} from "../services/post.service.ts";
+import type {PageResult} from "../utils/pagingAndSorting.ts";
+import type {Post} from "../models/post.model.ts";
+import {useEffect, useRef, Fragment} from "react";
 
 function HomeFeed() {
+    const ref = useRef(null);
+    const {data, fetchNextPage, isPending, isFetching, isError} = useInfiniteQuery({
+        queryKey: ['posts', 'latest'],
+        queryFn: getLatestPosts,
+        initialPageParam: 1,
+        getNextPageParam: (lastPage: PageResult<Post>): number | undefined => {
+            const currentPage: number = lastPage.page.number + 1
+            const totalPages: number = lastPage.page.totalPages
+
+            return currentPage < totalPages
+                ? currentPage + 1
+                : undefined
+        },
+    });
+    useEffect(() => {
+        if (!ref.current) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                console.log(entry.boundingClientRect);
+                if (entry.isIntersecting) {
+                    fetchNextPage();
+                }
+            },
+            {
+                root: null,
+                threshold: 1.0,
+                rootMargin: "200px"
+            }
+        );
+
+        observer.observe(ref.current);
+
+        return () => observer.disconnect();
+    }, [fetchNextPage]);
+
+    if (isPending) return <div
+        style={{display: "flex", justifyContent: "center", alignItems: "center"}}>Chargement...</div>;
+
+    if (isError) return <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>Erreur</div>;
+
     return (
         <>
             <main className="content">
@@ -11,26 +56,32 @@ function HomeFeed() {
                     <FeedPostEditor/>
                     <div className="feed">
                         {
-                            postsMock.map((post) => {
-                                return (
-                                    <PostFeedCard
-                                        key={post.id}
-                                        id={post.id}
-                                        userId={post.account.id}
-                                        content={post.content}
-                                        username={post.account.username}
-                                        avatarSrc={post.account.avatarUrl}
-                                        createdAt={post.createdAt}
-                                    />
-                                );
-                            })
+                            data?.pages.flatMap((page) => (
+                                <Fragment key={page.page.number}>
+                                    {
+                                        page.content.map((post) => (
+                                            (
+                                                <PostFeedCard
+                                                    key={post.id}
+                                                    id={post.id}
+                                                    userId={post.account.id}
+                                                    content={post.content}
+                                                    username={post.account.username}
+                                                    createdAt={post.createdAt}
+                                                />
+                                            )
+                                        ))
+                                    }
+                                </Fragment>
+                            ))
                         }
                     </div>
+                    <div id="scroll-action" style={{height: 1}}
+                         ref={ref}>{isFetching ? 'Chargement...' : null}</div>
                 </div>
             </main>
         </>
-    )
-        ;
+    );
 }
 
 export default HomeFeed;

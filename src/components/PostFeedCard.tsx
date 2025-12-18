@@ -2,13 +2,13 @@ import "../styles/PostFeedCard.css";
 import {formatShortDate} from "../utils/formatShortDate";
 import {Ellipsis, MessageSquare} from "lucide-react";
 import {Link} from "react-router";
+import {faker} from "@faker-js/faker";
 
-function PostFeedCard({id, userId, content, avatarSrc, username, createdAt, width = "80%"}: {
+function PostFeedCard({id, userId, content, username, createdAt, width = "80%"}: {
     id: string,
     userId: string,
     content: string,
     username: string,
-    avatarSrc: string,
     createdAt: string,
     width?: string
 }) {
@@ -17,7 +17,7 @@ function PostFeedCard({id, userId, content, avatarSrc, username, createdAt, widt
             <div className="post-feed-card-header">
                 <div className="post-feed-card-header-title">
                     <Link to={`/${userId}`} className="post-feed-card-avatar">
-                        <img src={avatarSrc} alt="avatar"/>
+                        <img src={faker.image.avatar()} alt="avatar"/>
                     </Link>
                     <p> {username} <span
                         style={{color: 'grey', fontSize: 'small'}}> . {formatShortDate(new Date(createdAt))}</span></p>

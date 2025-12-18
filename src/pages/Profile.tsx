@@ -6,6 +6,7 @@ import ProfileHeader from "../components/ProfileHeader.tsx";
 import PostFeedCard from "../components/PostFeedCard.tsx";
 import {postsMock} from "../mocks/post.mock.ts";
 import type {Post} from "../models/post.model.ts";
+import {faker} from "@faker-js/faker";
 
 function Profile() {
     const {id} = useParams<string>();
@@ -17,13 +18,13 @@ function Profile() {
         <>
             <main className="content">
                 <div className="Profile-wrap-content">
-                    <ProfileHeader username={user?.username} avatarUrl={user?.avatarUrl}/>
+                    <ProfileHeader username={user?.username} avatarUrl={faker.image.avatar()}/>
                     <div className="posts-list">
                         {
                             posts.map((post) => {
                                 return (
                                     <PostFeedCard key={post.id} id={post.id} userId={id || ""} content={post.content}
-                                                  username={user?.username || ""} avatarSrc={user?.avatarUrl || ""}
+                                                  username={user?.username || ""}
                                                   createdAt={post.createdAt} width={"100%"}/>
                                 )
                             })
