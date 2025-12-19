@@ -5,10 +5,10 @@ import {useInfiniteQuery} from "@tanstack/react-query";
 import {getLatestPosts} from "../services/post.service.ts";
 import type {PageResult} from "../utils/pagingAndSorting.ts";
 import type {Post} from "../models/post.model.ts";
-import {useEffect, useRef, Fragment} from "react";
+import {Fragment, useCallback, useRef} from "react";
 
 function HomeFeed() {
-    const ref = useRef(null);
+    const observerRef = useRef<IntersectionObserver>(null);
     const {data, fetchNextPage, isPending, isFetching, isError} = useInfiniteQuery({
         queryKey: ['posts', 'latest'],
         queryFn: getLatestPosts,
@@ -22,12 +22,12 @@ function HomeFeed() {
                 : undefined
         },
     });
-    useEffect(() => {
-        if (!ref.current) return;
+    const setRef = useCallback((node: HTMLDivElement | null): (() => void) | undefined => {
+        if (!node) return;
 
-        const observer = new IntersectionObserver(
+
+        observerRef.current = new IntersectionObserver(
             ([entry]) => {
-                console.log(entry.boundingClientRect);
                 if (entry.isIntersecting) {
                     fetchNextPage();
                 }
@@ -39,9 +39,12 @@ function HomeFeed() {
             }
         );
 
-        observer.observe(ref.current);
+        observerRef.current.observe(node);
 
-        return () => observer.disconnect();
+        return () => {
+            observerRef.current?.disconnect();
+            observerRef.current = null;
+        }
     }, [fetchNextPage]);
 
     if (isPending) return <div
@@ -76,8 +79,8 @@ function HomeFeed() {
                             ))
                         }
                     </div>
-                    <div id="scroll-action" style={{height: 1}}
-                         ref={ref}>{isFetching ? 'Chargement...' : null}</div>
+                    <div id="scroll-action" style={{height: 1, width: '100%'}}
+                         ref={setRef}>{isFetching && 'Chargement...'}</div>
                 </div>
             </main>
         </>
