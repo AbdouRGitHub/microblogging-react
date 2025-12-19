@@ -8,7 +8,6 @@ import type {Post} from "../models/post.model.ts";
 import {Fragment, useCallback, useRef} from "react";
 
 function HomeFeed() {
-    const observerRef = useRef<IntersectionObserver>(null);
     const {data, fetchNextPage, isPending, isFetching, isError} = useInfiniteQuery({
         queryKey: ['posts', 'latest'],
         queryFn: getLatestPosts,
@@ -22,11 +21,9 @@ function HomeFeed() {
                 : undefined
         },
     });
-    const setRef = useCallback((node: HTMLDivElement | null): (() => void) | undefined => {
+    const setRef = useCallback((node: HTMLDivElement): (() => void) | undefined => {
         if (!node) return;
-
-
-        observerRef.current = new IntersectionObserver(
+        const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
                     fetchNextPage();
@@ -38,13 +35,11 @@ function HomeFeed() {
                 rootMargin: "200px"
             }
         );
+        console.log("APPEL");
+        observer.observe(node);
 
-        observerRef.current.observe(node);
+        return () => observer.disconnect();
 
-        return () => {
-            observerRef.current?.disconnect();
-            observerRef.current = null;
-        }
     }, [fetchNextPage]);
 
     if (isPending) return <div
