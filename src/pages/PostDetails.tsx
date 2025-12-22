@@ -1,4 +1,3 @@
-import {findById} from "../mocks/post.mock.ts";
 import {Link, type NavigateFunction, useNavigate, useParams} from "react-router";
 import "../styles/PostDetails.css";
 import {ArrowLeft, MessageSquare, Heart} from "lucide-react";
@@ -6,12 +5,22 @@ import {format} from "date-fns";
 import {fr} from "date-fns/locale";
 import PostFeedCard from "../components/PostFeedCard.tsx";
 import {faker} from "@faker-js/faker";
+import {useQuery} from "@tanstack/react-query";
+import {getPostById} from "../services/post.service.ts";
 
 function PostDetails() {
     const {id} = useParams();
     const navigate: NavigateFunction = useNavigate();
 
-    const post = findById(id);
+    const {data, isPending, isError} = useQuery({
+        queryKey: ['post', id],
+        queryFn: () => getPostById(id),
+    })
+
+    if (isPending) return <div
+        style={{display: "flex", justifyContent: "center", alignItems: "center"}}>Chargement...</div>;
+
+    if (isError) return <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>Erreur</div>;
 
     return (
         <>
@@ -30,21 +39,21 @@ function PostDetails() {
                     <div className="post-section">
                         <div className="post-card-header">
                             <div className="post-card-header-title">
-                                <Link to={`/${post?.account.id}`} className="post-feed-card-avatar">
+                                <Link to={`/${data?.account.id}`} className="post-feed-card-avatar">
                                     <img src={faker.image.avatar()} alt="avatar"/>
                                 </Link>
                                 <p>
-                                    <span>{post?.account.username} </span>
+                                    <span>{data?.account.username} </span>
                                 </p>
                             </div>
                         </div>
                         <div className="post-card-body">
                             <div className="post-content">
-                                <p>{post?.content}</p>
+                                <p>{data?.content}</p>
                             </div>
                             <div>
                                 <p className="post-time"> Posté
-                                    le {post?.createdAt ? format(new Date(post?.createdAt), "dd MMMM yyyy, hh:mm", {locale: fr}) : null}
+                                    le {data?.createdAt ? format(new Date(data?.createdAt), "dd MMMM yyyy, hh:mm", {locale: fr}) : null}
                                 </p>
                             </div>
                         </div>
@@ -69,7 +78,7 @@ function PostDetails() {
                             </div>
                         </div>
                         <div className="post-comment-list">
-                            {post?.replies?.map(comment => (
+                            {data?.replies?.map(comment => (
                                 <PostFeedCard id={comment.id} userId={comment.account.id} key={comment.id}
                                               content={comment.content}
                                               username={comment.account.username}

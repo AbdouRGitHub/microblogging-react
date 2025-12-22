@@ -6,4 +6,8 @@ async function getLatestPosts({pageParam}: { pageParam: number }): Promise<PageR
     return await ky.get(`http://localhost:8080/posts?page=${pageParam}`).json<PageResult<Post>>();
 }
 
-export {getLatestPosts}
+async function getPostById(postId: string | undefined): Promise<Post> {
+    return await ky.get(`http://localhost:8080/posts/${postId}`).json<Post>();
+}
+
+export {getLatestPosts, getPostById}
