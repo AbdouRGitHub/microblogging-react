@@ -5,10 +5,14 @@ import {useInfiniteQuery} from "@tanstack/react-query";
 import {getLatestPosts} from "../services/post.service.ts";
 import type {PageResult} from "../utils/pagingAndSorting.ts";
 import type {Post} from "../models/post.model.ts";
-import {Fragment, useCallback, useRef} from "react";
+import {Fragment} from "react";
+import {useInfiniteScroll} from "../hooks/useInfiniteScroll.ts";
 
 function HomeFeed() {
-    const {data, fetchNextPage, isPending, isFetching, isError} = useInfiniteQuery({
+    const {
+        data, fetchNextPage, isPending, isFetching, isError, hasNextPage,
+        isFetchingNextPage,
+    } = useInfiniteQuery({
         queryKey: ['posts', 'latest'],
         queryFn: getLatestPosts,
         initialPageParam: 1,
@@ -21,26 +25,10 @@ function HomeFeed() {
                 : undefined
         },
     });
-    const setRef = useCallback((node: HTMLDivElement): (() => void) | undefined => {
-        if (!node) return;
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    fetchNextPage();
-                }
-            },
-            {
-                root: null,
-                threshold: 1.0,
-                rootMargin: "200px"
-            }
-        );
-        console.log("APPEL");
-        observer.observe(node);
-
-        return () => observer.disconnect();
-
-    }, [fetchNextPage]);
+    const setRef = useInfiniteScroll({
+        onIntersect: () => fetchNextPage(),
+        enabledFetching: hasNextPage && !isFetchingNextPage,
+    });
 
     if (isPending) return <div
         style={{display: "flex", justifyContent: "center", alignItems: "center"}}>Chargement...</div>;
@@ -75,7 +63,7 @@ function HomeFeed() {
                         }
                     </div>
                     <div id="scroll-action" style={{height: 1, width: '100%'}}
-                         ref={setRef}>{isFetching && 'Chargement...'}</div>
+                         ref={setRef}>{isFetching ? 'Chargement...' : null}</div>
                 </div>
             </main>
         </>
