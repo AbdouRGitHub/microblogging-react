@@ -42,7 +42,7 @@ function HomeFeed() {
                     <FeedPostEditor/>
                     <div className="feed">
                         {
-                            data?.pages.flatMap((page) => (
+                            data?.pages.map((page) => (
                                 <Fragment key={page.page.number}>
                                     {
                                         page.content.map((post) => (

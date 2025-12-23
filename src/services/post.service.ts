@@ -10,4 +10,9 @@ async function getPostById(postId: string | undefined): Promise<Post> {
     return await ky.get(`http://localhost:8080/posts/${postId}`).json<Post>();
 }
 
-export {getLatestPosts, getPostById}
+async function getPostsByUserId(pageParam: number, userId: string | undefined): Promise<PageResult<Post>> {
+
+    return await ky.get(`http://localhost:8080/posts/by-user/${userId}?page=${pageParam}`).json<PageResult<Post>>();
+}
+
+export {getLatestPosts, getPostById, getPostsByUserId}

@@ -1,7 +1,13 @@
 import {Link} from "react-router";
 import "../styles/ProfileHeader.css";
+import {format} from "date-fns";
+import {fr} from "date-fns/locale";
 
-function ProfileHeader({username, avatarUrl}: { username: string | undefined, avatarUrl: string | undefined }) {
+function ProfileHeader({username, createdAt, avatarUrl}: {
+    username: string | undefined,
+    createdAt: string | undefined,
+    avatarUrl: string | undefined
+}) {
     return (
         <>
             <div className="profile-header">
@@ -13,7 +19,7 @@ function ProfileHeader({username, avatarUrl}: { username: string | undefined, av
                 </div>
                 <div className="profile-info">
                     <h2>{username}</h2>
-                    <span>Membre depuis le 1er juillet 2021</span>
+                    <span>Membre depuis {createdAt ? format(new Date(createdAt), "dd MMMM yyyy", {locale: fr}) : null}</span>
                 </div>
             </div>
             <div className="profile-hub">
