@@ -1,4 +1,4 @@
-import {Link} from "react-router";
+import {NavLink, useParams} from "react-router";
 import "../styles/ProfileHeader.css";
 import {format} from "date-fns";
 import {fr} from "date-fns/locale";
@@ -8,6 +8,7 @@ function ProfileHeader({username, createdAt, avatarUrl}: {
     createdAt: string | undefined,
     avatarUrl: string | undefined
 }) {
+    const {id} = useParams();
     return (
         <>
             <div className="profile-header">
@@ -25,14 +26,17 @@ function ProfileHeader({username, createdAt, avatarUrl}: {
             <div className="profile-hub">
                 <nav className="profile-nav">
                     <div className="profile-nav-item">
-                        <Link to="#">
+                        <NavLink to={`/${id}`} end={true} className={({isActive}) => (
+                            isActive ? "profile-nav-item-link-active" :
+                                "profile-nav-item-link"
+                        )}>
                             Publications
-                        </Link>
+                        </NavLink>
                     </div>
                     <div className="profile-nav-item">
-                        <Link to="#">
+                        <NavLink to="replies">
                             Mes réponses
-                        </Link>
+                        </NavLink>
                     </div>
                 </nav>
             </div>
