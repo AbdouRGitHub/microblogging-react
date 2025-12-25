@@ -15,4 +15,8 @@ async function getPostsByUserId(pageParam: number, userId: string | undefined): 
     return await ky.get(`http://localhost:8080/posts/by-user/${userId}?page=${pageParam}`).json<PageResult<Post>>();
 }
 
-export {getLatestPosts, getPostById, getPostsByUserId}
+async function getRepliesByUserId(pageParam: number, userId: string | undefined): Promise<PageResult<Post>> {
+    return await ky.get(`http://localhost:8080/posts/by-user/${userId}/replies?page=${pageParam}`).json<PageResult<Post>>();
+}
+
+export {getLatestPosts, getPostById, getPostsByUserId, getRepliesByUserId}

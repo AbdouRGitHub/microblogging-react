@@ -12,12 +12,13 @@ import {Fragment} from "react";
 
 function Profile() {
     const {id} = useParams();
-    const {data: user, isPending: userIsPending, isError: userIsError} = useQuery({
+    const {data: user} = useQuery({
         queryKey: ['account', id],
-        queryFn: () => getUserById(id)
+        queryFn: () => getUserById(id),
+        staleTime: 30 * 1000
     })
 
-    const {data, isPending, isError} = useInfiniteQuery({
+    const {data} = useInfiniteQuery({
         queryKey: ['posts', id],
         queryFn: ({pageParam, queryKey}) => getPostsByUserId(pageParam, queryKey[1]),
         initialPageParam: 1,
@@ -30,13 +31,7 @@ function Profile() {
                 : undefined
         }
     });
-    if (isPending || userIsPending) return <div
-        style={{display: "flex", justifyContent: "center", alignItems: "center"}}>Chargement...</div>;
 
-    if (isError || userIsError) return <div
-        style={{display: "flex", justifyContent: "center", alignItems: "center"}}>Erreur</div>;
-
-    console.log(data);
     return (
         <>
             <main className="content">

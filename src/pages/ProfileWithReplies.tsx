@@ -1,0 +1,67 @@
+import {useParams} from "react-router";
+import {useInfiniteQuery, useQuery} from "@tanstack/react-query";
+import {getUserById} from "../services/user.service.ts";
+import {getRepliesByUserId} from "../services/post.service.ts";
+import type {PageResult} from "../utils/pagingAndSorting.ts";
+import type {Post} from "../models/post.model.ts";
+import ProfileHeader from "../components/ProfileHeader.tsx";
+import {faker} from "@faker-js/faker";
+import {Fragment} from "react";
+import PostFeedCard from "../components/PostFeedCard.tsx";
+
+function ProfileWithReplies() {
+    const {id} = useParams();
+
+    const {data: user} = useQuery({
+        queryKey: ['account', id],
+        queryFn: () => getUserById(id),
+        staleTime: 30 * 1000
+    })
+
+    const {data} = useInfiniteQuery({
+        queryKey: ['replies', id],
+        queryFn: ({pageParam, queryKey}) => getRepliesByUserId(pageParam, queryKey[1]),
+        initialPageParam: 1,
+        getNextPageParam: (lastPage: PageResult<Post>): number | undefined => {
+            const currentPage: number = lastPage.page.number + 1
+            const totalPages: number = lastPage.page.totalPages
+
+            return currentPage < totalPages
+                ? currentPage + 1
+                : undefined
+        }
+    });
+
+    return (
+        <>
+            <main className="content">
+                <div className="Profile-wrap-content">
+                    <ProfileHeader username={user?.username} createdAt={user?.createdAt}
+                                   avatarUrl={faker.image.avatar()}/>
+                    <div className="posts-list">
+                        {
+                            data?.pages.map((page) => (
+                                <Fragment key={page.page.number}>
+                                    {
+                                        page.content.map((post) => (
+                                            <PostFeedCard
+                                                key={post.id}
+                                                id={post.id}
+                                                userId={post.account.id}
+                                                content={post.content}
+                                                username={post.account.username}
+                                                createdAt={post.createdAt}
+                                                width={"100%"}
+                                            />))
+                                    }
+                                </Fragment>
+                            ))
+                        }
+                    </div>
+                </div>
+            </main>
+        </>
+    )
+}
+
+export default ProfileWithReplies;

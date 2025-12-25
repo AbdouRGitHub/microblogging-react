@@ -34,7 +34,10 @@ function ProfileHeader({username, createdAt, avatarUrl}: {
                         </NavLink>
                     </div>
                     <div className="profile-nav-item">
-                        <NavLink to="replies">
+                        <NavLink to={`/${id}/replies`} end={true} className={({isActive}) => (
+                            isActive ? "profile-nav-item-link-active" :
+                                "profile-nav-item-link"
+                        )}>
                             Mes réponses
                         </NavLink>
                     </div>
