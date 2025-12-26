@@ -10,6 +10,10 @@ async function getPostById(postId: string | undefined): Promise<Post> {
     return await ky.get(`http://localhost:8080/posts/${postId}`).json<Post>();
 }
 
+async function getRepliesByPostId(postId: string | undefined): Promise<PageResult<Post>> {
+    return await ky.get(`http://localhost:8080/posts/${postId}/comments`).json<PageResult<Post>>();
+}
+
 async function getPostsByUserId(pageParam: number, userId: string | undefined): Promise<PageResult<Post>> {
 
     return await ky.get(`http://localhost:8080/posts/by-user/${userId}?page=${pageParam}`).json<PageResult<Post>>();
@@ -19,4 +23,4 @@ async function getRepliesByUserId(pageParam: number, userId: string | undefined)
     return await ky.get(`http://localhost:8080/posts/by-user/${userId}/replies?page=${pageParam}`).json<PageResult<Post>>();
 }
 
-export {getLatestPosts, getPostById, getPostsByUserId, getRepliesByUserId}
+export {getLatestPosts, getPostById, getPostsByUserId, getRepliesByUserId, getRepliesByPostId}

@@ -6,17 +6,22 @@ import {fr} from "date-fns/locale";
 import PostFeedCard from "../components/PostFeedCard.tsx";
 import {faker} from "@faker-js/faker";
 import {useQuery} from "@tanstack/react-query";
-import {getPostById} from "../services/post.service.ts";
+import {getPostById, getRepliesByPostId} from "../services/post.service.ts";
 
 function PostDetails() {
     const {id} = useParams();
     const navigate: NavigateFunction = useNavigate();
 
-    const {data, isPending, isError} = useQuery({
+    const {data: post, isPending, isError} = useQuery({
         queryKey: ['post', id],
         queryFn: () => getPostById(id),
     })
 
+    const {data: replies} = useQuery({
+        queryKey: ['replies', id],
+        queryFn: () => getRepliesByPostId(id),
+        enabled: !!post?.id
+    })
     if (isPending) return <div
         style={{display: "flex", justifyContent: "center", alignItems: "center"}}>Chargement...</div>;
 
@@ -39,33 +44,33 @@ function PostDetails() {
                     <div className="post-section">
                         <div className="post-card-header">
                             <div className="post-card-header-title">
-                                <Link to={`/${data?.account.id}`} className="post-feed-card-avatar">
+                                <Link to={`/${post?.account.id}`} className="post-feed-card-avatar">
                                     <img src={faker.image.avatar()} alt="avatar"/>
                                 </Link>
                                 <p>
-                                    <span>{data?.account.username} </span>
+                                    <span>{post?.account.username} </span>
                                 </p>
                             </div>
                         </div>
                         <div className="post-card-body">
                             <div className="post-content">
-                                <p>{data?.content}</p>
+                                <p>{post?.content}</p>
                             </div>
                             <div>
                                 <p className="post-time"> Posté
-                                    le {data?.createdAt ? format(new Date(data?.createdAt), "dd MMMM yyyy, hh:mm", {locale: fr}) : null}
+                                    le {post?.createdAt ? format(new Date(post?.createdAt), "dd MMMM yyyy, hh:mm", {locale: fr}) : null}
                                 </p>
                             </div>
                         </div>
                         <div className="post-card-footer">
                             <button className="post-comment-btn">
                                 <MessageSquare size={22} className="post-comment-btn-icon"/>
-                                <span>2 commentaires</span>
                             </button>
+                            <span style={{color: "grey"}}>2 commentaires</span>
                             <button className="post-like-btn">
                                 <Heart size={22} className="post-like-btn-icon"/>
-                                <span>2 ont aimé</span>
                             </button>
+                            <span style={{color: "grey"}}>2 ont aimé</span>
                         </div>
                     </div>
                     <div className="comments-section">
@@ -78,11 +83,11 @@ function PostDetails() {
                             </div>
                         </div>
                         <div className="post-comment-list">
-                            {data?.replies?.map(comment => (
-                                <PostFeedCard id={comment.id} userId={comment.account.id} key={comment.id}
-                                              content={comment.content}
-                                              username={comment.account.username}
-                                              createdAt={comment.createdAt} width={"100%"}/>
+                            {replies?.content?.map(reply => (
+                                <PostFeedCard id={reply.id} userId={reply.account.id} key={reply.id}
+                                              content={reply.content}
+                                              username={reply.account.username}
+                                              createdAt={reply.createdAt} width={"100%"}/>
                             ))}
                         </div>
                     </div>

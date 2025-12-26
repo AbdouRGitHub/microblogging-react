@@ -90,7 +90,7 @@
     height: 3rem;
     display: flex;
     align-items: center;
-    column-gap: 2rem;
+    column-gap: 0.5rem;
 }
 
 .post-comment-btn {
