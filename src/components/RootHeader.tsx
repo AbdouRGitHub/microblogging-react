@@ -1,32 +1,32 @@
-import '../styles/RootHeader.css';
+import styles from '../styles/RootHeader.module.css';
 import {Bookmark, House} from "lucide-react";
 import {Link, NavLink} from "react-router";
 
 function RootHeader() {
     return (
         <>
-            <header className="header">
-                <a href="#" className="start">
+            <header className={styles.header}>
+                <Link to="/" className={styles.start}>
                     <img
                         src="/logo.svg"
                         alt="logo"
-                        className="logo-img"
+                        className={styles.logo}
                     />
-                </a>
-                <nav className="middle">
+                </Link>
+                <nav className={styles.middle}>
                     <NavLink to="/" end={true}>
                         {({isActive}) => (
-                            <House className={isActive ? "active-link" : ""}/>
+                            <House className={isActive ? styles.isActive : styles.link}/>
                         )}
                     </NavLink>
-                    <NavLink to="#">
+                    <NavLink to="/">
                         <Bookmark color="grey"/>
                     </NavLink>
                 </nav>
-                <div className="end">
-                    <div className="user-container">
-                        <Link to="#" className="user-link">
-                            <img src="https://picsum.photos/id/237/200/300" alt="avatar"/>
+                <div className={styles.end}>
+                    <div>
+                        <Link to="/">
+                            <img src="https://picsum.photos/id/237/200/300" className={styles.avatar} alt="avatar"/>
                         </Link>
                     </div>
                 </div>

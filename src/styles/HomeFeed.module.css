@@ -1,21 +1,23 @@
-.content {
+.main {
     width: 100%;
     min-height: 100vh;
 }
 
-.Profile-wrap-content {
+.wrap {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: relative;
+    margin: 1rem auto 0;
+    max-width: 40rem;
     row-gap: 2rem;
 }
 
-.posts-list{
+.feed {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 45%;
+    row-gap: 1rem;
+    width: 100%;
 }

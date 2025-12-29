@@ -1,5 +1,5 @@
 import {NavLink, useParams} from "react-router";
-import "../styles/ProfileHeader.css";
+import styles from "../styles/ProfileHeader.module.css";
 import {format} from "date-fns";
 import {fr} from "date-fns/locale";
 
@@ -11,32 +11,32 @@ function ProfileHeader({username, createdAt, avatarUrl}: {
     const {id} = useParams();
     return (
         <>
-            <div className="profile-header">
-                <div className="profile-banner">
-                    <img src="/bluesky.jpg" alt="bluesky"/>
+            <div className={styles.header}>
+                <div className={styles.banner}>
+                    <img src="/bluesky.jpg" className={styles.bannerImg} alt="bluesky"/>
                 </div>
-                <div className="profile-avatar">
-                    <img src={avatarUrl} alt="avatar"/>
+                <div className={styles.avatar}>
+                    <img src={avatarUrl} className={styles.avatarImg} alt="avatar"/>
                 </div>
-                <div className="profile-info">
+                <div className={styles.info}>
                     <h2>{username}</h2>
                     <span>Membre depuis {createdAt ? format(new Date(createdAt), "dd MMMM yyyy", {locale: fr}) : null}</span>
                 </div>
             </div>
-            <div className="profile-hub">
-                <nav className="profile-nav">
-                    <div className="profile-nav-item">
+            <div className={styles.hub}>
+                <nav className={styles.nav}>
+                    <div className={styles.navItem}>
                         <NavLink to={`/${id}`} end={true} className={({isActive}) => (
-                            isActive ? "profile-nav-item-link-active" :
-                                "profile-nav-item-link"
+                            isActive ? styles.isActive :
+                                styles.link
                         )}>
                             Publications
                         </NavLink>
                     </div>
-                    <div className="profile-nav-item">
+                    <div className={styles.navItem}>
                         <NavLink to={`/${id}/replies`} end={true} className={({isActive}) => (
-                            isActive ? "profile-nav-item-link-active" :
-                                "profile-nav-item-link"
+                            isActive ? styles.isActive :
+                                styles.link
                         )}>
                             Mes réponses
                         </NavLink>

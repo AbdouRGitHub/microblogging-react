@@ -1,3 +1,4 @@
+import styles from "../styles/Profile.module.css";
 import {useParams} from "react-router";
 import {useInfiniteQuery, useQuery} from "@tanstack/react-query";
 import {getUserById} from "../services/user.service.ts";
@@ -34,11 +35,11 @@ function ProfileWithReplies() {
 
     return (
         <>
-            <main className="content">
-                <div className="Profile-wrap-content">
+            <main className={styles.content}>
+                <div className={styles.wrap}>
                     <ProfileHeader username={user?.username} createdAt={user?.createdAt}
                                    avatarUrl={faker.image.avatar()}/>
-                    <div className="posts-list">
+                    <div className={styles.list}>
                         {
                             data?.pages.map((page) => (
                                 <Fragment key={page.page.number}>

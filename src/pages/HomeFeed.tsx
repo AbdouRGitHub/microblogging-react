@@ -1,4 +1,4 @@
-import "../styles/HomeFeed.css"
+import styles from "../styles/HomeFeed.module.css"
 import FeedPostEditor from "../components/FeedPostEditor.tsx";
 import PostFeedCard from "../components/PostFeedCard.tsx";
 import {useInfiniteQuery} from "@tanstack/react-query";
@@ -37,10 +37,10 @@ function HomeFeed() {
 
     return (
         <>
-            <main className="content">
-                <div className="HomeFeed-wrap-content">
+            <main className={styles.main}>
+                <div className={styles.wrap}>
                     <FeedPostEditor/>
-                    <div className="feed">
+                    <div className={styles.feed}>
                         {
                             data?.pages.map((page) => (
                                 <Fragment key={page.page.number}>

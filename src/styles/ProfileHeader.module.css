@@ -1,5 +1,5 @@
 
-.profile-header {
+.header {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -8,16 +8,16 @@
     width: 50%;
 }
 
-.profile-banner {
+.banner {
     width: 100%;
 }
 
-.profile-banner img {
+.bannerImg {
     width: 100%;
     height: 10rem;
 }
 
-.profile-avatar {
+.avatar {
     position: relative;
     top: -4rem;
     left: 2rem;
@@ -25,7 +25,7 @@
     height: 3rem;
 }
 
-.profile-avatar img {
+.avatarImg{
     width: 100%;
     padding: 0.2rem;
     border-radius: 0.5rem;
@@ -33,11 +33,11 @@
     border: 2px solid var(--primary-background-color);
 }
 
-.profile-info {
+.info {
     padding: 0.5rem;
 }
 
-.profile-hub {
+.hub {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,7 +45,7 @@
     margin: 0 auto;
 }
 
-.profile-nav {
+.nav {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -54,7 +54,7 @@
     border-bottom: 1px solid grey;
 }
 
-.profile-nav-item {
+.navItem{
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -63,21 +63,27 @@
     height: 2rem;
 }
 
-.profile-nav-item-link{
+.navItem:hover {
+    background-color: lightgrey;
+}
+
+.link{
     width: 100%;
     height: 100%;
     text-align: center;
     padding: 0.5rem;
+    text-decoration: none;
+    user-select: none;
+    color: grey;
 }
 
-.profile-nav-item-link-active{
+.isActive{
     width: 100%;
     height: 100%;
     text-align: center;
     padding: 0.5rem;
     background-color: lightgrey;
-}
-
-.profile-nav-item:hover {
-    background-color: lightgrey;
+    text-decoration: none;
+    user-select: none;
+    color: grey;
 }

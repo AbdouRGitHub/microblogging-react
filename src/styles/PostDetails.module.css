@@ -1,9 +1,9 @@
-.content {
+.main {
     width: 100%;
     min-height: 100vh;
 }
 
-.PostDetails-wrap-content {
+.wrap {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -12,7 +12,7 @@
     max-width: 40rem;
 }
 
-.post-header {
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -20,20 +20,20 @@
     height: 3rem;
 }
 
-.post-header-title {
+.headerTitle {
     display: flex;
     align-items: center;
     column-gap: 0.5rem;
 }
 
-.back-link {
+.backLink {
     font-size: 50%;
     text-decoration: none;
     color: inherit;
     align-items: center;
     cursor: pointer;
 }
-.post-section {
+.post {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -50,7 +50,7 @@
     margin-bottom: 0.5rem;
 }
 
-.post-card-header {
+.postHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -59,17 +59,17 @@
     margin-bottom: 0.5rem;
 }
 
-.post-card-header-title {
+.headerTitle{
     display: flex;
     align-items: center;
     column-gap: 0.5rem;
 }
 
-.post-card-header img {
+.headerAvatar{
     width: 2rem;
 }
 
-.post-card-body {
+.body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -77,15 +77,17 @@
     margin-bottom: 0.5rem;
     row-gap: 0.5rem;
 }
-.post-content {
+
+.content {
     width: 100%;
 }
 
-.post-time {
+.time {
     color: grey;
     font-size: 0.8rem;
 }
-.post-card-footer {
+
+.footer {
     width: 100%;
     height: 3rem;
     display: flex;
@@ -93,7 +95,7 @@
     column-gap: 0.5rem;
 }
 
-.post-comment-btn {
+.commentBtn {
     display: flex;
     align-items: center;
     background-color: inherit;
@@ -104,13 +106,13 @@
     color: grey;
 }
 
-.post-comment-btn-icon:hover {
+.commentIcon:hover {
     color: #74BEDB;
     cursor: pointer;
     fill: #74BEDB;
 }
 
-.post-like-btn {
+.likeBtn {
     display: flex;
     align-items: center;
     background-color: inherit;
@@ -121,13 +123,13 @@
     color: grey;
 }
 
-.post-like-btn-icon:hover {
+.likeIcon:hover {
     color: #FE7918;
     cursor: pointer;
     fill: #FE7918;
 }
 
-.comments-section {
+.comments {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -136,7 +138,7 @@
     padding: 8px 8px 0 8px;
 }
 
-.post-comment-editor {
+.editor {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -149,7 +151,7 @@
     margin-bottom: 1rem;
 }
 
-.post-comment-editor-textarea {
+.textArea {
     width: 100%;
     min-height: 3rem;
     resize: none;
@@ -158,11 +160,11 @@
     border-radius: 1%;
 }
 
-.post-comment-editor-textarea:focus {
+.textArea:focus {
     outline: none;
 }
 
-.post-comment-editor button {
+.sendButton {
     background-color: white;
     border-radius: 50rem;
     padding: 0.2rem 0.5rem;
@@ -170,17 +172,9 @@
     cursor: pointer;
 }
 
-.post-comment-list {
+.commentList {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
 }
-
-.post-comment-item {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-}
-

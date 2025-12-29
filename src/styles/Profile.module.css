@@ -1,28 +1,21 @@
-.app {
-    display: flex;
-    flex-direction: column;
-}
-
 .content {
     width: 100%;
     min-height: 100vh;
 }
 
-.HomeFeed-wrap-content {
+.wrap {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 1rem auto 0;
-    max-width: 40rem;
+    position: relative;
     row-gap: 2rem;
 }
 
-.feed {
+.list{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    row-gap: 1rem;
-    width: 100%;
+    width: 45%;
 }

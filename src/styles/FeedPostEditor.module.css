@@ -1,4 +1,4 @@
-.wrap-input {
+.wrap {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,7 +7,7 @@
     margin-bottom: 1rem;
 }
 
-.input-post {
+.input {
     background-color: rgba(229, 227, 221);
     border: none;
     height: 2rem;
@@ -15,12 +15,12 @@
     user-select: none;
     border-radius: 10px;
 }
-.input-post:focus {
-    outline: none;
 
+.input:focus {
+    outline: none;
 }
 
-.send-post-btn {
+.button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,7 +33,7 @@
     margin-right: 0.5rem;
 }
 
-.send-post-btn img {
+.image {
     width: 50%;
     height: 50%;
     object-fit: contain;
