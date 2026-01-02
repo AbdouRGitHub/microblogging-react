@@ -66,11 +66,13 @@ function PostDetails() {
                             <button className={styles.commentBtn}>
                                 <MessageSquare size={22} className={styles.commentIcon}/>
                             </button>
-                            <span style={{color: "grey"}}>2 commentaires</span>
+                            <span
+                                style={{color: "grey"}}>{post?.commentsCount > 1 ? `${post?.commentsCount} commentaires` : `${post?.commentsCount}`}</span>
                             <button className={styles.likeBtn}>
                                 <Heart size={22} className={styles.likeIcon}/>
                             </button>
-                            <span style={{color: "grey"}}>2 ont aimé</span>
+                            <span
+                                style={{color: "grey"}}>{post?.like.count > 1 ? `${post?.like.count} ont aimé` : `${post?.like.count}`}</span>
                         </div>
                     </div>
                     <div className={styles.comments}>
@@ -86,6 +88,9 @@ function PostDetails() {
                             {replies?.content?.map(reply => (
                                 <PostFeedCard id={reply.id} userId={reply.account.id} key={reply.id}
                                               content={reply.content}
+                                              likes={post.like.count}
+                                              liked={post.like.liked}
+                                              comments={post.commentsCount}
                                               username={reply.account.username}
                                               createdAt={reply.createdAt} width={"100%"}/>
                             ))}

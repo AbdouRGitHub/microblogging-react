@@ -52,6 +52,9 @@ function HomeFeed() {
                                                     id={post.id}
                                                     userId={post.account.id}
                                                     content={post.content}
+                                                    likes={post.like.count}
+                                                    liked={post.like.liked}
+                                                    comments={post.commentsCount}
                                                     username={post.account.username}
                                                     createdAt={post.createdAt}
                                                 />

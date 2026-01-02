@@ -8,7 +8,7 @@ function RootHeader() {
             <header className={styles.header}>
                 <Link to="/" className={styles.start}>
                     <img
-                        src="/logo.svg"
+                        src="/ok.png"
                         alt="logo"
                         className={styles.logo}
                     />
