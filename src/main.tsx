@@ -8,6 +8,7 @@ import RootLayout from "./layout/RootLayout.tsx";
 import Profile from "./pages/Profile.tsx";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import ProfileWithReplies from "./pages/ProfileWithReplies.tsx";
+import SignIn from "./pages/SignIn.tsx";
 
 
 const queryClient = new QueryClient({
@@ -36,8 +37,9 @@ createRoot(document.getElementById('root')!).render(
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
                 <Routes>
+                    <Route index element={<SignIn/>}/>
                     <Route element={<RootLayout/>}>
-                        <Route index element={<HomeFeed/>}/>
+                        <Route index path="home" element={<HomeFeed/>}/>
                         <Route path=":id">
                             <Route index element={<Profile/>}/>
                             <Route path="replies" element={<ProfileWithReplies/>}/>

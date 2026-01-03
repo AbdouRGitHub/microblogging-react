@@ -6,7 +6,7 @@ function RootHeader() {
     return (
         <>
             <header className={styles.header}>
-                <Link to="/" className={styles.start}>
+                <Link to="/home" className={styles.start}>
                     <img
                         src="/ok.png"
                         alt="logo"
@@ -14,18 +14,18 @@ function RootHeader() {
                     />
                 </Link>
                 <nav className={styles.middle}>
-                    <NavLink to="/" end={true}>
+                    <NavLink to="/home" end={true}>
                         {({isActive}) => (
                             <House className={isActive ? styles.isActive : styles.link}/>
                         )}
                     </NavLink>
-                    <NavLink to="/">
+                    <NavLink to="/home">
                         <Bookmark color="grey"/>
                     </NavLink>
                 </nav>
                 <div className={styles.end}>
                     <div>
-                        <Link to="/">
+                        <Link to="/home">
                             <img src="https://picsum.photos/id/237/200/300" className={styles.avatar} alt="avatar"/>
                         </Link>
                     </div>
