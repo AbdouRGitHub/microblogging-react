@@ -6,9 +6,10 @@ import {BrowserRouter, Route, Routes} from "react-router";
 import PostDetails from "./pages/PostDetails.tsx";
 import RootLayout from "./layout/RootLayout.tsx";
 import Profile from "./pages/Profile.tsx";
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {QueryClient, QueryCache, QueryClientProvider, type DefaultError} from "@tanstack/react-query";
 import ProfileWithReplies from "./pages/ProfileWithReplies.tsx";
 import SignIn from "./pages/SignIn.tsx";
+import {HTTPError} from "ky";
 
 
 const queryClient = new QueryClient({
@@ -17,8 +18,15 @@ const queryClient = new QueryClient({
             staleTime: 0,
             retry: false,
             refetchOnWindowFocus: false,
+        },
+    },
+    queryCache: new QueryCache({
+        onError: (error: DefaultError) => {
+            if (error instanceof HTTPError && error.response.status === 401) {
+                //redirection vers login
+            }
         }
-    }
+    }),
 });
 
 // This code is only for TypeScript

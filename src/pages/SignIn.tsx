@@ -1,5 +1,6 @@
 import styles from "../styles/SignIn.module.css";
 import {useForm, type SubmitHandler} from "react-hook-form";
+import {signIn} from "../services/auth.service.ts";
 
 function SignIn() {
     type Inputs = {
@@ -11,10 +12,9 @@ function SignIn() {
         handleSubmit,
         formState: {errors},
     } = useForm<Inputs>({
-        mode: "onChange",
-        shouldFocusError: false
+        shouldFocusError: false,
     });
-    const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => console.log(data)
+    const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => signIn(data.username, data.password);
     return (
         <>
             <main className={styles.main}>
@@ -22,7 +22,7 @@ function SignIn() {
                     <div className={styles.mainContainer}>
                         <h1 className={styles.title}>Connexion</h1>
                         <div className={styles.form}>
-                            <form onClick={handleSubmit(onSubmit)} className={styles.form}>
+                            <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                                 <input type="text" placeholder="pseudo"
                                        autoComplete="username"
                                        className={styles.input} {...register("username", {required: true})}/>
