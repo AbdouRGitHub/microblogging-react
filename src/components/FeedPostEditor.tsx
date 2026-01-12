@@ -1,15 +1,37 @@
 import styles from "../styles/FeedPostEditor.module.css"
-import {Send} from "lucide-react";
+import {ArrowUp} from "lucide-react";
+import {useEffect, useRef, useState} from "react";
 
 function FeedPostEditor() {
+    const [value, setValue] = useState('');
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    useEffect(() => {
+        const textarea = textareaRef.current;
+        if (textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
+    }, [value]);
+
     return (
+    <div className={styles.container}>
         <div className={styles.wrap}>
-            <input type="text" className={styles.input} size={50} placeholder="QUOI DE NEUF?"/>
-            <button className={styles.button}>
-                <Send className={styles.image} size={20}/>
-            </button>
+            <div className={styles.textContainer}>
+                    <textarea ref={textareaRef}
+                              value={value}
+                              onChange={(e) => setValue(e.target.value)} name="content" id="content"
+                              placeholder="Que voulez vous dire ?"
+                              className={styles.textArea}/>
+            </div>
+            <div className={styles.optionsContainer}>
+                <button type="submit" className={styles.button}>
+                    <ArrowUp className={styles.image}/>
+                </button>
+            </div>
         </div>
-    )
+    </div>
+)
 }
 
 export default FeedPostEditor;

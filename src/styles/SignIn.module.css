@@ -13,6 +13,17 @@
     gap: 2rem;
 }
 
+.errorContainer {
+    border: 1px solid red;
+    border-radius: 0.3rem;
+    background-color: lightcoral;
+    color: red;
+    padding: 0.4rem;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+}
+
 .mainContainer {
     display: flex;
     flex-direction: column;

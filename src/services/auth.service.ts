@@ -1,4 +1,5 @@
-import ky, {HTTPError} from "ky";
+import {HTTPError} from "ky";
+import kyClient from "../utils/kyClient";
 
 export interface ApiSuccess {
     success: true;
@@ -14,9 +15,8 @@ export type LoginResponse = ApiSuccess | ApiError;
 
 async function signIn(username: string, password: string): Promise<LoginResponse> {
     try {
-        await ky.post('http://localhost:8080/auth/login', {
+        await kyClient.post('auth/login', {
             json: {username, password},
-            credentials: 'include'
         }).json();
         return {
             success: true

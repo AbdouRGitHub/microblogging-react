@@ -1,6 +1,6 @@
 import styles from "../styles/SignIn.module.css";
-import {useForm, type SubmitHandler} from "react-hook-form";
-import {type LoginResponse, signIn} from "../services/auth.service.ts";
+import {type SubmitHandler, useForm} from "react-hook-form";
+import {signIn} from "../services/auth.service.ts";
 import {useState} from "react";
 import {useNavigate} from "react-router";
 
@@ -18,8 +18,7 @@ function SignIn() {
     } = useForm<Inputs>({
         shouldFocusError: false,
     });
-    const onSubmit = async (data: Inputs) => {
-
+    const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
         const result = await signIn(data.username, data.password);
 
         if (result.success) {
@@ -36,7 +35,7 @@ function SignIn() {
                     <div className={styles.mainContainer}>
                         <h1 className={styles.title}>Connexion</h1>
                         <div className={styles.form}>
-                            {error && <p style={{ color: "red" }}>{error}</p>}
+                            {error && <div className={styles.errorContainer}><p>{error}</p></div>}
                             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                                 <input type="text" placeholder="pseudo"
                                        autoComplete="username"

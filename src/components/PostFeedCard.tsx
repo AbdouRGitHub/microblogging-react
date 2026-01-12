@@ -1,15 +1,13 @@
 import styles from "../styles/PostFeedCard.module.css";
 import {formatShortDate} from "../utils/formatShortDate";
-import {Heart, MessageSquare} from "lucide-react";
 import {Link} from "react-router";
 import {faker} from "@faker-js/faker";
 
-function PostFeedCard({id, userId, content, likes, liked, comments, username, createdAt, width = "80%"}: {
+function PostFeedCard({id, userId, content, likes, comments, username, createdAt, width = "80%"}: {
     id: string,
     userId: string,
     content: string,
     likes: number,
-    liked: boolean,
     comments: number,
     username: string,
     createdAt: string,
@@ -33,10 +31,10 @@ function PostFeedCard({id, userId, content, likes, liked, comments, username, cr
                 </p>
             </Link>
             <div className={styles.footer}>
-                <MessageSquare size={16} strokeWidth={2} color="#74BEDB"/>
-                <p style={{color: 'grey', fontSize: 'smaller', fontWeight: 'bolder'}}>{comments}</p>
-                <Heart size={17} strokeWidth={2} color="#FE7918"/>
-                <p style={{color: 'grey', fontSize: 'smaller', fontWeight: 'bolder'}}>{likes}</p>
+                <p style={{color: 'grey', fontSize: 'smaller'}}>
+                    <span style={{color: 'grey', fontSize: 'small', fontWeight: 'bolder'}}>{comments} </span> commentaires</p>
+                <p style={{color: 'grey', fontSize: 'smaller'}}>
+                    <span style={{color: 'grey', fontSize: 'small', fontWeight: 'bolder'}}>{likes} </span> likes </p>
             </div>
         </article>
     )

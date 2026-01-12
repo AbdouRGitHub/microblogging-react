@@ -11,7 +11,6 @@ import ProfileWithReplies from "./pages/ProfileWithReplies.tsx";
 import SignIn from "./pages/SignIn.tsx";
 import {HTTPError} from "ky";
 
-
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
@@ -22,8 +21,9 @@ const queryClient = new QueryClient({
     },
     queryCache: new QueryCache({
         onError: (error: DefaultError) => {
-            if (error instanceof HTTPError && error.response.status === 401) {
-                //redirection vers login
+            if (error instanceof HTTPError && error.response.status === 403) {
+                //destroy cookie session JSESSIONID
+                window.location.href = "/";
             }
         }
     }),

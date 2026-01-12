@@ -69,7 +69,7 @@ function PostDetails() {
                             <span
                                 style={{color: "grey"}}>{post?.commentsCount > 1 ? `${post?.commentsCount} commentaires` : `${post?.commentsCount}`}</span>
                             <button className={styles.likeBtn}>
-                                <Heart size={22} className={styles.likeIcon}/>
+                                <Heart size={22} className={styles.likeIcon}  fill={post?.like.liked ? '#FE7918' : 'none'}/>
                             </button>
                             <span
                                 style={{color: "grey"}}>{post?.like.count > 1 ? `${post?.like.count} ont aimé` : `${post?.like.count}`}</span>
@@ -89,7 +89,6 @@ function PostDetails() {
                                 <PostFeedCard id={reply.id} userId={reply.account.id} key={reply.id}
                                               content={reply.content}
                                               likes={post.like.count}
-                                              liked={post.like.liked}
                                               comments={post.commentsCount}
                                               username={reply.account.username}
                                               createdAt={reply.createdAt} width={"100%"}/>
