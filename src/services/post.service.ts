@@ -27,4 +27,10 @@ async function getRepliesByUserId(pageParam: number, userId: string | undefined)
     return await kyClient.get(`posts/by-user/${userId}/replies?page=${pageParam}`).json<PageResult<Post>>();
 }
 
-export {getLatestPosts, getPostById, getPostsByUserId, getRepliesByUserId, getRepliesByPostId}
+async function sendPost(content: string): Promise<Post> {
+    return await kyClient.post('posts', {
+        json: {content},
+    }).json<Post>();
+}
+
+export {getLatestPosts, getPostById, getPostsByUserId, getRepliesByUserId, getRepliesByPostId, sendPost}

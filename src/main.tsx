@@ -6,7 +6,7 @@ import {BrowserRouter, Route, Routes} from "react-router";
 import PostDetails from "./pages/PostDetails.tsx";
 import RootLayout from "./layout/RootLayout.tsx";
 import Profile from "./pages/Profile.tsx";
-import {QueryClient, QueryCache, QueryClientProvider, type DefaultError} from "@tanstack/react-query";
+import {type DefaultError, QueryCache, QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import ProfileWithReplies from "./pages/ProfileWithReplies.tsx";
 import SignIn from "./pages/SignIn.tsx";
 import {HTTPError} from "ky";

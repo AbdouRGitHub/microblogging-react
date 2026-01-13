@@ -1,16 +1,25 @@
 import styles from "../styles/HomeFeed.module.css"
-import FeedPostEditor from "../components/FeedPostEditor.tsx";
+import FeedPostEditor, {type FeedEditorInputs} from "../components/FeedPostEditor.tsx";
 import PostFeedCard from "../components/PostFeedCard.tsx";
 import {useInfiniteQuery} from "@tanstack/react-query";
-import {getLatestPosts} from "../services/post.service.ts";
+import {getLatestPosts, sendPost} from "../services/post.service.ts";
 import type {PageResult} from "../utils/pagingAndSorting.ts";
 import type {Post} from "../models/post.model.ts";
 import {Fragment} from "react";
 import {useInfiniteScroll} from "../hooks/useInfiniteScroll.ts";
+import {type SubmitHandler, useForm} from "react-hook-form";
 
 function HomeFeed() {
+
     const {
-        data, fetchNextPage, isPending, isFetching, isError, hasNextPage,
+        register,
+        handleSubmit,
+    } = useForm<FeedEditorInputs>({
+        shouldFocusError: false,
+    });
+
+    const {
+        data, fetchNextPage, isPending, isFetching, isError, hasNextPage, refetch,
         isFetchingNextPage,
     } = useInfiniteQuery({
         queryKey: ['posts', 'latest'],
@@ -25,6 +34,13 @@ function HomeFeed() {
                 : undefined
         },
     });
+    const handleFeedEditorSubmit: SubmitHandler<FeedEditorInputs> = async (data: FeedEditorInputs) => {
+        const response = await sendPost(data.content);
+        if (response) {
+            await refetch();
+        }
+    }
+
     const setRef = useInfiniteScroll({
         onIntersect: () => fetchNextPage(),
         enabledFetching: hasNextPage && !isFetchingNextPage,
@@ -39,7 +55,8 @@ function HomeFeed() {
         <>
             <main className={styles.main}>
                 <div className={styles.wrap}>
-                    <FeedPostEditor/>
+                    <FeedPostEditor register={register}
+                                    onSubmit={handleSubmit(handleFeedEditorSubmit)}/>
                     <div className={styles.feed}>
                         {
                             data?.pages.map((page) => (
