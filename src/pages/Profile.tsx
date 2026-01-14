@@ -9,13 +9,16 @@ import {getPostsByUserId} from "../services/post.service.ts";
 import type {PageResult} from "../utils/pagingAndSorting.ts";
 import type {Post} from "../models/post.model.ts";
 import {Fragment} from "react";
+import {HTTPError} from "ky";
+import AccountNotFound from "./AccountNotFound.tsx";
+import HeaderTitle from "../components/HeaderTitle.tsx";
 
 function Profile() {
     const {id} = useParams();
-    const {data: user} = useQuery({
+    const {data: user, error, isError} = useQuery({
         queryKey: ['account', id],
         queryFn: () => getUserById(id),
-        staleTime: 30 * 1000
+        staleTime: 30 * 1000,
     })
 
     const {data} = useInfiniteQuery({
@@ -32,12 +35,23 @@ function Profile() {
         }
     });
 
+    if (isError) {
+        if (error instanceof HTTPError && (error.response.status === 404 || error.response.status === 400)) {
+            return <AccountNotFound/>;
+        }
+        return <div>Une erreur est survenue</div>;
+    }
     return (
         <>
             <main className={styles.content}>
                 <div className={styles.wrap}>
-                    <ProfileHeader username={user?.username} createdAt={user?.createdAt}
-                                   avatarUrl={faker.image.avatar()}/>
+                    <div className={styles.headerContainer}>
+                        <div className={styles.titleContainer}>
+                            <HeaderTitle title="Profile"/>
+                        </div>
+                        <ProfileHeader username={user?.username} createdAt={user?.createdAt}
+                                       avatarUrl={faker.image.avatar()}/>
+                    </div>
                     <div className={styles.list}>
                         {
                             data?.pages.map((page) => (

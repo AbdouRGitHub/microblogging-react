@@ -1,17 +1,16 @@
-import {Link, type NavigateFunction, useNavigate, useParams} from "react-router";
+import {Link, useParams} from "react-router";
 import styles from "../styles/PostDetails.module.css";
-import {ArrowLeft, MessageSquare, Heart} from "lucide-react";
+import {MessageSquare, Heart} from "lucide-react";
 import {format} from "date-fns";
 import {fr} from "date-fns/locale";
 import PostFeedCard from "../components/PostFeedCard.tsx";
 import {faker} from "@faker-js/faker";
 import {useQuery} from "@tanstack/react-query";
 import {getPostById, getRepliesByPostId} from "../services/post.service.ts";
+import HeaderTitle from "../components/HeaderTitle.tsx";
 
 function PostDetails() {
     const {id} = useParams();
-    const navigate: NavigateFunction = useNavigate();
-
     const {data: post, isPending, isError} = useQuery({
         queryKey: ['post', id],
         queryFn: () => getPostById(id),
@@ -31,16 +30,7 @@ function PostDetails() {
         <>
             <main className={styles.content}>
                 <div className={styles.wrap}>
-                    <div className={styles.header}>
-                        <div className={styles.headerTitle}>
-                            <a onClick={() => {
-                                navigate(-1);
-                            }} className={styles.backLink}>
-                                <ArrowLeft/>
-                            </a>
-                            <h2> Post </h2>
-                        </div>
-                    </div>
+                    <HeaderTitle title="Post"/>
                     <div className={styles.post}>
                         <div className={styles.postHeader}>
                             <div className={styles.headerTitle}>

@@ -10,9 +10,23 @@
     align-items: center;
     position: relative;
     row-gap: 2rem;
+
 }
 
-.list{
+.headerContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.titleContainer {
+    width: 50%;
+    padding: 0 0.2rem;
+}
+
+.list {
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -1,8 +1,20 @@
-import ky from 'ky';
 import type {User} from "../models/user.model.ts";
+import kyClient from "../utils/kyClient.ts";
 
 async function getUserById(userId: string | undefined): Promise<User> {
-    return await ky.get(`http://localhost:8080/accounts/${userId}`).json<User>();
+    return await kyClient.get(`accounts/${userId}`).json<User>();
 }
 
-export {getUserById};
+async function getMyInfo(): Promise<User> {
+    return await kyClient.get('me').json<User>();
+}
+
+async function signUp(username: string, email: string, password: string): Promise<User> {
+    return await kyClient.post('accounts', {
+        json: {
+            username, email, password
+        }
+    }).json<User>();
+}
+
+export {getUserById, getMyInfo, signUp};

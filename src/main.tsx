@@ -6,10 +6,11 @@ import {BrowserRouter, Route, Routes} from "react-router";
 import PostDetails from "./pages/PostDetails.tsx";
 import RootLayout from "./layout/RootLayout.tsx";
 import Profile from "./pages/Profile.tsx";
-import {type DefaultError, QueryCache, QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import ProfileWithReplies from "./pages/ProfileWithReplies.tsx";
 import SignIn from "./pages/SignIn.tsx";
-import {HTTPError} from "ky";
+import NotFound from "./pages/NotFound.tsx";
+import SignUp from "./pages/SignUp.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -18,15 +19,24 @@ const queryClient = new QueryClient({
             retry: false,
             refetchOnWindowFocus: false,
         },
+        mutations: {
+            retry: false,
+        }
     },
-    queryCache: new QueryCache({
+/*    queryCache: new QueryCache({
         onError: (error: DefaultError) => {
             if (error instanceof HTTPError && error.response.status === 403) {
-                //destroy cookie session JSESSIONID
                 window.location.href = "/";
             }
         }
     }),
+    mutationCache: new MutationCache({
+        onError: (error: DefaultError) => {
+            if (error instanceof HTTPError && error.response.status === 403) {
+                window.location.href = "/";
+            }
+        }
+    })*/
 });
 
 // This code is only for TypeScript
@@ -46,6 +56,7 @@ createRoot(document.getElementById('root')!).render(
             <BrowserRouter>
                 <Routes>
                     <Route index element={<SignIn/>}/>
+                    <Route path="signUp" element={<SignUp/>}/>
                     <Route element={<RootLayout/>}>
                         <Route index path="home" element={<HomeFeed/>}/>
                         <Route path=":id">
@@ -56,6 +67,7 @@ createRoot(document.getElementById('root')!).render(
                             <Route path=":id" element={<PostDetails/>}/>
                         </Route>
                     </Route>
+                    <Route path="*" element={<NotFound/>}/>
                 </Routes>
             </BrowserRouter>
         </QueryClientProvider>

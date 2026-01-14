@@ -39,5 +39,4 @@ async function signIn(username: string, password: string): Promise<LoginResponse
     }
 
 }
-
 export {signIn};
