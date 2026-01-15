@@ -110,6 +110,8 @@
     color: #74BEDB;
     cursor: pointer;
     fill: #74BEDB;
+    width: 22px;
+    height: 22px;
 }
 
 .likeBtn {
@@ -121,6 +123,12 @@
     font-size: 1rem;
     border-radius: 30%;
     color: grey;
+    width: 22px;
+    height: 22px;
+}
+
+.likeBtn.active {
+    color: #FE7918;
 }
 
 .likeIcon:hover {

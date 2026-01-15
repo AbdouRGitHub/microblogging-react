@@ -33,4 +33,21 @@ async function sendPost(content: string): Promise<Post> {
     }).json<Post>();
 }
 
-export {getLatestPosts, getPostById, getPostsByUserId, getRepliesByUserId, getRepliesByPostId, sendPost}
+async function likePost(postId: string): Promise<Post> {
+    return await kyClient.post(`posts/${postId}/likes`).json();
+}
+
+async function unlikePost(postId: string): Promise<Post> {
+    return await kyClient.delete(`posts/${postId}/likes`).json();
+}
+
+export {
+    getLatestPosts,
+    getPostById,
+    getPostsByUserId,
+    getRepliesByUserId,
+    getRepliesByPostId,
+    sendPost,
+    likePost,
+    unlikePost
+}
