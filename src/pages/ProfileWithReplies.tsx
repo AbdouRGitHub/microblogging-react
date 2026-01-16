@@ -1,37 +1,18 @@
 import styles from "../styles/Profile.module.css";
 import {useParams} from "react-router";
-import {useInfiniteQuery, useQuery} from "@tanstack/react-query";
-import {getUserById} from "../services/user.service.ts";
-import {getRepliesByUserId} from "../services/post.service.ts";
-import type {PageResult} from "../utils/pagingAndSorting.ts";
-import type {Post} from "../models/post.model.ts";
 import ProfileHeader from "../components/ProfileHeader.tsx";
 import {faker} from "@faker-js/faker";
 import {Fragment} from "react";
 import PostFeedCard from "../components/PostFeedCard.tsx";
+import {useUserDetails} from "../hooks/useUserDetails.ts";
+import {useUserReplies} from "../hooks/useUserReplies.ts";
 
 function ProfileWithReplies() {
     const {id} = useParams();
 
-    const {data: user} = useQuery({
-        queryKey: ['account', id],
-        queryFn: () => getUserById(id),
-        staleTime: 30 * 1000
-    })
+    const {data: user} = useUserDetails(id);
 
-    const {data} = useInfiniteQuery({
-        queryKey: ['replies', id],
-        queryFn: ({pageParam, queryKey}) => getRepliesByUserId(pageParam, queryKey[1]),
-        initialPageParam: 1,
-        getNextPageParam: (lastPage: PageResult<Post>): number | undefined => {
-            const currentPage: number = lastPage.page.number + 1
-            const totalPages: number = lastPage.page.totalPages
-
-            return currentPage < totalPages
-                ? currentPage + 1
-                : undefined
-        }
-    });
+    const {data} = useUserReplies(id);
 
     return (
         <>

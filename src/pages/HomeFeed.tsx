@@ -1,16 +1,13 @@
 import styles from "../styles/HomeFeed.module.css"
 import FeedPostEditor, {type FeedEditorInputs} from "../components/FeedPostEditor.tsx";
 import PostFeedCard from "../components/PostFeedCard.tsx";
-import {useInfiniteQuery} from "@tanstack/react-query";
-import {getLatestPosts, sendPost} from "../services/post.service.ts";
-import type {PageResult} from "../utils/pagingAndSorting.ts";
-import type {Post} from "../models/post.model.ts";
+import {sendPost} from "../services/post.service.ts";
 import {Fragment} from "react";
 import {useInfiniteScroll} from "../hooks/useInfiniteScroll.ts";
 import {type SubmitHandler, useForm} from "react-hook-form";
+import {useLatestPosts} from "../hooks/useLatestPosts.ts";
 
 function HomeFeed() {
-
     const {
         register,
         handleSubmit,
@@ -21,19 +18,8 @@ function HomeFeed() {
     const {
         data, fetchNextPage, isPending, isFetching, isError, hasNextPage, refetch,
         isFetchingNextPage,
-    } = useInfiniteQuery({
-        queryKey: ['posts', 'latest'],
-        queryFn: getLatestPosts,
-        initialPageParam: 1,
-        getNextPageParam: (lastPage: PageResult<Post>): number | undefined => {
-            const currentPage: number = lastPage.page.number + 1
-            const totalPages: number = lastPage.page.totalPages
+    } = useLatestPosts();
 
-            return currentPage < totalPages
-                ? currentPage + 1
-                : undefined
-        },
-    });
     const handleFeedEditorSubmit: SubmitHandler<FeedEditorInputs> = async (data: FeedEditorInputs) => {
         const response = await sendPost(data.content);
         if (response) {

@@ -34,5 +34,5 @@ export function useInfiniteScroll({
 
         return () => observer.disconnect();
 
-    }, [onIntersect, root, threshold, rootMargin]);
+    }, [root, threshold, rootMargin, enabledFetching, onIntersect]);
 }

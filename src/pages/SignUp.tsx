@@ -19,6 +19,7 @@ function SignUp() {
     } = useForm<Inputs>({
         shouldFocusError: false,
     });
+
     const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
         const result = await signUp(data.username, data.email, data.password);
 

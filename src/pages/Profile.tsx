@@ -3,37 +3,17 @@ import {useParams} from "react-router";
 import ProfileHeader from "../components/ProfileHeader.tsx";
 import PostFeedCard from "../components/PostFeedCard.tsx";
 import {faker} from "@faker-js/faker";
-import {useInfiniteQuery, useQuery} from "@tanstack/react-query";
-import {getUserById} from "../services/user.service.ts";
-import {getPostsByUserId} from "../services/post.service.ts";
-import type {PageResult} from "../utils/pagingAndSorting.ts";
-import type {Post} from "../models/post.model.ts";
 import {Fragment} from "react";
 import {HTTPError} from "ky";
 import AccountNotFound from "./AccountNotFound.tsx";
 import HeaderTitle from "../components/HeaderTitle.tsx";
+import {useUserPosts} from "../hooks/useUserPosts.ts";
+import {useUserDetails} from "../hooks/useUserDetails.ts";
 
 function Profile() {
     const {id} = useParams();
-    const {data: user, error, isError} = useQuery({
-        queryKey: ['account', id],
-        queryFn: () => getUserById(id),
-        staleTime: 30 * 1000,
-    })
-
-    const {data} = useInfiniteQuery({
-        queryKey: ['posts', id],
-        queryFn: ({pageParam, queryKey}) => getPostsByUserId(pageParam, queryKey[1]),
-        initialPageParam: 1,
-        getNextPageParam: (lastPage: PageResult<Post>): number | undefined => {
-            const currentPage: number = lastPage.page.number + 1
-            const totalPages: number = lastPage.page.totalPages
-
-            return currentPage < totalPages
-                ? currentPage + 1
-                : undefined
-        }
-    });
+    const {data: user, error, isError} = useUserDetails(id);
+    const {data} = useUserPosts(id);
 
     if (isError) {
         if (error instanceof HTTPError && (error.response.status === 404 || error.response.status === 400)) {
