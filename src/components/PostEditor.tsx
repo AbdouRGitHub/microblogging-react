@@ -1,7 +1,7 @@
 import styles from "../styles/FeedPostEditor.module.css"
 import {ArrowUp} from "lucide-react";
 import {useEffect, useRef} from "react";
-import type {UseFormRegister} from "react-hook-form";
+import {type Control, type UseFormRegister, useWatch} from "react-hook-form";
 
 
 export type FeedEditorInputs = {
@@ -11,18 +11,23 @@ export type FeedEditorInputs = {
 interface FeedPostEditorProps {
     register: UseFormRegister<FeedEditorInputs>;
     onSubmit: React.FormEventHandler<HTMLFormElement>;
+    control: Control<FeedEditorInputs>;
     placeholder?: string;
     defaultValue?: string;
 }
 
-function FeedPostEditor({
-                            register,
-                            onSubmit,
-                            placeholder = 'Que voulez vous dire ?',
-                            defaultValue = ''
-                        }: FeedPostEditorProps) {
+function PostEditor({
+                        register,
+                        onSubmit,
+                        control,
+                        placeholder = 'Que voulez vous dire ?',
+                        defaultValue = ''
+                    }: FeedPostEditorProps) {
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    const content = useWatch({name: "content", defaultValue: defaultValue ?? "", control});
+
 
     const autoResize = () => {
         const el = textareaRef.current;
@@ -30,6 +35,7 @@ function FeedPostEditor({
         el.style.height = "auto";
         el.style.height = `${el.scrollHeight}px`;
     }
+
     useEffect(() => {
         const textarea = textareaRef.current;
         if (textarea) {
@@ -45,7 +51,6 @@ function FeedPostEditor({
                     <div className={styles.textContainer}>
                         <textarea
                             id="content"
-                            defaultValue={defaultValue}
                             {...register("content", {
                                 required: true,
                                 maxLength: {value: 300, message: "300 caractères maximum"}
@@ -54,11 +59,14 @@ function FeedPostEditor({
                                 register("content").ref(e);
                                 textareaRef.current = e;
                             }}
-                            onInput = {autoResize}
+                            onInput={autoResize}
                             placeholder={placeholder}
-                            className={styles.textArea}/>
+                            className={styles.textArea}
+                            maxLength={300}
+                        />
                     </div>
                     <div className={styles.optionsContainer}>
+                        {content.length > 0 && <span className={styles.lengthValue}>{content.length}/300</span>}
                         <button type="submit" className={styles.button}>
                             <ArrowUp className={styles.image}/>
                         </button>
@@ -69,4 +77,4 @@ function FeedPostEditor({
     )
 }
 
-export default FeedPostEditor;
+export default PostEditor;

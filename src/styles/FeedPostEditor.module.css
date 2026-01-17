@@ -2,7 +2,7 @@
     background-color: rgba(229, 227, 221);
     border-radius: 10px;
     margin-bottom: 1rem;
-    width: 90%;
+    width: 100%;
 }
 
 .wrap {
@@ -21,6 +21,7 @@
 .textContainer {
     width: 100%;
 }
+
 .textArea {
     background-color: rgba(229, 227, 221);
     border: none;
@@ -40,6 +41,7 @@
     justify-content: flex-end;
     align-items: center;
     width: 100%;
+    gap: 0.5rem;
 }
 
 .input {
@@ -54,6 +56,14 @@
 
 .input:focus {
     outline: none;
+}
+
+.lengthValue {
+    color: grey;
+    font-size: 0.8rem;
+    user-select: none;
+    font-weight: bold;
+    font-style: italic;
 }
 
 .button {

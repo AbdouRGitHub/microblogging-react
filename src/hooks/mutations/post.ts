@@ -3,6 +3,7 @@ import {likePost, unlikePost} from "../../services/post.service.ts";
 import type {Post} from "../../models/post.model.ts";
 
 export const postMutations = {
+    postComment: () => mutationOptions({}),
     toggleLike: (queryClient: QueryClient) => mutationOptions({
         mutationFn: async ({postId, wasLiked}: { postId: string, wasLiked: boolean }) => {
             if (wasLiked) {

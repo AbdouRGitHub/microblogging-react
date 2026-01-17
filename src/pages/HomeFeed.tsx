@@ -1,5 +1,5 @@
 import styles from "../styles/HomeFeed.module.css"
-import FeedPostEditor, {type FeedEditorInputs} from "../components/FeedPostEditor.tsx";
+import PostEditor, {type FeedEditorInputs} from "../components/PostEditor.tsx";
 import PostFeedCard from "../components/PostFeedCard.tsx";
 import {sendPost} from "../services/post.service.ts";
 import {Fragment} from "react";
@@ -12,6 +12,7 @@ function HomeFeed() {
     const {
         register,
         handleSubmit,
+        control
     } = useForm<FeedEditorInputs>({
         shouldFocusError: false,
     });
@@ -42,8 +43,9 @@ function HomeFeed() {
         <>
             <main className={styles.main}>
                 <div className={styles.wrap}>
-                    <FeedPostEditor register={register}
-                                    onSubmit={handleSubmit(handleFeedEditorSubmit)}/>
+                    <PostEditor register={register}
+                                onSubmit={handleSubmit(handleFeedEditorSubmit)
+                                } control={control}/>
                     <div className={styles.feed}>
                         {
                             data?.pages.map((page) => (

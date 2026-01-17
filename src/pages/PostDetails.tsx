@@ -5,20 +5,35 @@ import {format} from "date-fns";
 import {fr} from "date-fns/locale";
 import PostFeedCard from "../components/PostFeedCard.tsx";
 import {faker} from "@faker-js/faker";
-import {useQueryClient, type QueryClient, useQuery} from "@tanstack/react-query";
+import {useQueryClient, type QueryClient, useQuery, useMutation} from "@tanstack/react-query";
 import HeaderTitle from "../components/HeaderTitle.tsx";
-import {usePostLikes} from "../hooks/usePostLikes.ts";
 import {postQueries} from "../hooks/queries/post.ts";
+import PostEditor, {type FeedEditorInputs} from "../components/PostEditor.tsx";
+import {postMutations} from "../hooks/mutations/post.ts";
+import {type SubmitHandler, useForm} from "react-hook-form";
 
 function PostDetails() {
     const {id} = useParams();
+
     const queryClient: QueryClient = useQueryClient();
 
-    const {data: post, isPending, isError} = useQuery(postQueries.details(id))
+    const {data: post, isPending, isError} = useQuery(postQueries.details(id));
 
     const {data: replies} = useQuery(postQueries.replies(id));
 
-    const likeMutation = usePostLikes(queryClient);
+    const likeMutation = useMutation(postMutations.toggleLike(queryClient));
+
+    const {
+        register,
+        handleSubmit,
+        control,
+    } = useForm<FeedEditorInputs>({
+        shouldFocusError: false,
+    });
+
+    const handleFeedEditorSubmit: SubmitHandler<FeedEditorInputs> = async (data: FeedEditorInputs) => {
+        return data;
+    }
 
     if (isPending) return <div
         style={{display: "flex", justifyContent: "center", alignItems: "center"}}>Chargement...</div>;
@@ -77,12 +92,7 @@ function PostDetails() {
                     </div>
                     <div className={styles.comments}>
                         <div className={styles.editor}>
-                            <textarea name="comment editor" className={styles.textArea}
-                                      placeholder="Qu'en pense tu ?"
-                            />
-                            <div>
-                                <button className={styles.sendButton}>Envoyer</button>
-                            </div>
+                            <PostEditor register={register} onSubmit={handleSubmit(handleFeedEditorSubmit)} control={control}/>
                         </div>
                         <div className={styles.commentList}>
                             {replies?.content?.map(reply => (
