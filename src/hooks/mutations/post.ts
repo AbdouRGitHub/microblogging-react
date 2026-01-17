@@ -1,9 +1,9 @@
-import {type QueryClient, useMutation} from "@tanstack/react-query";
-import {likePost, unlikePost} from "../services/post.service.ts";
-import type {Post} from "../models/post.model.ts";
+import {mutationOptions, type QueryClient} from "@tanstack/react-query";
+import {likePost, unlikePost} from "../../services/post.service.ts";
+import type {Post} from "../../models/post.model.ts";
 
-export function usePostLikes(queryClient: QueryClient) {
-    return useMutation({
+export const postMutations = {
+    toggleLike: (queryClient: QueryClient) => mutationOptions({
         mutationFn: async ({postId, wasLiked}: { postId: string, wasLiked: boolean }) => {
             if (wasLiked) {
                 return unlikePost(postId);
@@ -22,7 +22,6 @@ export function usePostLikes(queryClient: QueryClient) {
                     count: old.like.liked ? old.like.count - 1 : old.like.count + 1
                 }
             }));
-
             return {previousPost};
         },
         onError: (_err, {postId}, context) => {
@@ -31,5 +30,5 @@ export function usePostLikes(queryClient: QueryClient) {
         onSettled: (_data, _err, {postId}) =>
             queryClient.invalidateQueries({queryKey: ['post', postId]}),
 
-    });
+    })
 }

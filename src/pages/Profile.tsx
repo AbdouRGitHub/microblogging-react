@@ -7,13 +7,14 @@ import {Fragment} from "react";
 import {HTTPError} from "ky";
 import AccountNotFound from "./AccountNotFound.tsx";
 import HeaderTitle from "../components/HeaderTitle.tsx";
-import {useUserPosts} from "../hooks/useUserPosts.ts";
-import {useUserDetails} from "../hooks/useUserDetails.ts";
+import {useInfiniteQuery, useQuery} from "@tanstack/react-query";
+import {userQueries} from "../hooks/queries/user.ts";
+import {postQueries} from "../hooks/queries/post.ts";
 
 function Profile() {
     const {id} = useParams();
-    const {data: user, error, isError} = useUserDetails(id);
-    const {data} = useUserPosts(id);
+    const {data: user, error, isError} = useQuery(userQueries.details(id));
+    const {data} = useInfiniteQuery(postQueries.userReplies(id));
 
     if (isError) {
         if (error instanceof HTTPError && (error.response.status === 404 || error.response.status === 400)) {

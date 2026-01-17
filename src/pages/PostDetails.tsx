@@ -5,19 +5,18 @@ import {format} from "date-fns";
 import {fr} from "date-fns/locale";
 import PostFeedCard from "../components/PostFeedCard.tsx";
 import {faker} from "@faker-js/faker";
-import {useQueryClient, type QueryClient} from "@tanstack/react-query";
+import {useQueryClient, type QueryClient, useQuery} from "@tanstack/react-query";
 import HeaderTitle from "../components/HeaderTitle.tsx";
-import {usePostDetails} from "../hooks/usePostDetails.ts";
 import {usePostLikes} from "../hooks/usePostLikes.ts";
-import {usePostComments} from "../hooks/usePostComments.ts";
+import {postQueries} from "../hooks/queries/post.ts";
 
 function PostDetails() {
     const {id} = useParams();
     const queryClient: QueryClient = useQueryClient();
 
-    const {data: post, isPending, isError} = usePostDetails(id);
+    const {data: post, isPending, isError} = useQuery(postQueries.details(id))
 
-    const {data: replies} = usePostComments(post)
+    const {data: replies} = useQuery(postQueries.replies(id));
 
     const likeMutation = usePostLikes(queryClient);
 

@@ -4,22 +4,29 @@ import ProfileHeader from "../components/ProfileHeader.tsx";
 import {faker} from "@faker-js/faker";
 import {Fragment} from "react";
 import PostFeedCard from "../components/PostFeedCard.tsx";
-import {useUserDetails} from "../hooks/useUserDetails.ts";
-import {useUserReplies} from "../hooks/useUserReplies.ts";
+import HeaderTitle from "../components/HeaderTitle.tsx";
+import {useInfiniteQuery, useQuery} from "@tanstack/react-query";
+import {userQueries} from "../hooks/queries/user.ts";
+import {postQueries} from "../hooks/queries/post.ts";
 
 function ProfileWithReplies() {
     const {id} = useParams();
 
-    const {data: user} = useUserDetails(id);
+    const {data: user} = useQuery(userQueries.details(id));
 
-    const {data} = useUserReplies(id);
+    const {data} = useInfiniteQuery(postQueries.userReplies(id));
 
     return (
         <>
             <main className={styles.content}>
                 <div className={styles.wrap}>
-                    <ProfileHeader username={user?.username} createdAt={user?.createdAt}
-                                   avatarUrl={faker.image.avatar()}/>
+                    <div className={styles.headerContainer}>
+                        <div className={styles.titleContainer}>
+                            <HeaderTitle title="Profile"/>
+                        </div>
+                        <ProfileHeader username={user?.username} createdAt={user?.createdAt}
+                                       avatarUrl={faker.image.avatar()}/>
+                    </div>
                     <div className={styles.list}>
                         {
                             data?.pages.map((page) => (

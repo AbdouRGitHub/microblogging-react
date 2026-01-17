@@ -5,7 +5,8 @@ import {sendPost} from "../services/post.service.ts";
 import {Fragment} from "react";
 import {useInfiniteScroll} from "../hooks/useInfiniteScroll.ts";
 import {type SubmitHandler, useForm} from "react-hook-form";
-import {useLatestPosts} from "../hooks/useLatestPosts.ts";
+import {useInfiniteQuery} from "@tanstack/react-query";
+import {postQueries} from "../hooks/queries/post.ts";
 
 function HomeFeed() {
     const {
@@ -18,7 +19,7 @@ function HomeFeed() {
     const {
         data, fetchNextPage, isPending, isFetching, isError, hasNextPage, refetch,
         isFetchingNextPage,
-    } = useLatestPosts();
+    } = useInfiniteQuery(postQueries.latest());
 
     const handleFeedEditorSubmit: SubmitHandler<FeedEditorInputs> = async (data: FeedEditorInputs) => {
         const response = await sendPost(data.content);
