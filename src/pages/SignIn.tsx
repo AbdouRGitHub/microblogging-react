@@ -3,29 +3,42 @@ import {type SubmitHandler, useForm} from "react-hook-form";
 import {signIn} from "../services/auth.service.ts";
 import {useState} from "react";
 import {useNavigate} from "react-router";
+import {useMutation} from "@tanstack/react-query";
+import {HTTPError} from "ky";
+
+export type Inputs = {
+    username: string;
+    password: string;
+}
 
 function SignIn() {
     const navigate = useNavigate();
-    const [error, setError] = useState<string | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    type Inputs = {
-        username: string;
-        password: string;
-    }
+    const {mutate, isPending} = useMutation({
+        mutationFn: signIn,
+        onSuccess: () => {
+            navigate("/home");
+        },
+        onError: async (error) => {
+            if (error instanceof HTTPError) {
+                const message = await error.response.text();
+                setErrorMessage(message);
+            } else {
+                setErrorMessage("Une erreur est survenue, réessayez plus tard");
+            }
+        },
+    });
+
     const {
         register,
         handleSubmit,
     } = useForm<Inputs>({
         shouldFocusError: false,
     });
-    const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
-        const result = await signIn(data.username, data.password);
 
-        if (result.success) {
-            navigate("/home");
-        } else {
-            setError(result.message ?? "Erreur inconnue");
-        }
+    const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
+        mutate(data);
     }
 
     return (
@@ -35,7 +48,7 @@ function SignIn() {
                     <div className={styles.mainContainer}>
                         <h1 className={styles.title}>Connexion</h1>
                         <div className={styles.form}>
-                            {error && <div className={styles.errorContainer}><p>{error}</p></div>}
+                            {errorMessage && <div className={styles.errorContainer}><p>{errorMessage}</p></div>}
                             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                                 <input type="text" placeholder="pseudo"
                                        autoComplete="username"
@@ -43,7 +56,7 @@ function SignIn() {
                                 <input type="password" placeholder="mot de passe"
                                        autoComplete="current-password"
                                        className={styles.input} {...register("password", {required: true})}/>
-                                <input type="submit" value="Se connecter" className={styles.submitBtn}/>
+                                <input type="submit" value="Se connecter" className={styles.submitBtn} disabled={isPending}/>
                             </form>
                         </div>
                     </div>
