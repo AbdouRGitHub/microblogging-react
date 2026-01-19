@@ -33,6 +33,12 @@ async function sendPost(content: string): Promise<Post> {
     }).json<Post>();
 }
 
+async function sendComment(postId: string, content: string) {
+    return await kyClient.post(`posts/${postId}/comments`, {
+        json: {content},
+    });
+}
+
 async function likePost(postId: string): Promise<Post> {
     return await kyClient.post(`posts/${postId}/likes`).json();
 }
@@ -48,6 +54,7 @@ export {
     getRepliesByUserId,
     getRepliesByPostId,
     sendPost,
+    sendComment,
     likePost,
     unlikePost
 }

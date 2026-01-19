@@ -1,10 +1,9 @@
 import styles from "../styles/SignIn.module.css";
 import {type SubmitHandler, useForm} from "react-hook-form";
-import {signIn} from "../services/auth.service.ts";
 import {useState} from "react";
 import {useNavigate} from "react-router";
 import {useMutation} from "@tanstack/react-query";
-import {HTTPError} from "ky";
+import {authQueries} from "../hooks/mutations/auth.ts";
 
 export type Inputs = {
     username: string;
@@ -15,20 +14,9 @@ function SignIn() {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const {mutate, isPending} = useMutation({
-        mutationFn: signIn,
-        onSuccess: () => {
-            navigate("/home");
-        },
-        onError: async (error) => {
-            if (error instanceof HTTPError) {
-                const message = await error.response.text();
-                setErrorMessage(message);
-            } else {
-                setErrorMessage("Une erreur est survenue, réessayez plus tard");
-            }
-        },
-    });
+    const {mutate, isPending} = useMutation(authQueries.signIn(() => {
+        navigate("/home");
+    }, setErrorMessage));
 
     const {
         register,
@@ -56,7 +44,8 @@ function SignIn() {
                                 <input type="password" placeholder="mot de passe"
                                        autoComplete="current-password"
                                        className={styles.input} {...register("password", {required: true})}/>
-                                <input type="submit" value="Se connecter" className={styles.submitBtn} disabled={isPending}/>
+                                <input type="submit" value="Se connecter" className={styles.submitBtn}
+                                       disabled={isPending}/>
                             </form>
                         </div>
                     </div>

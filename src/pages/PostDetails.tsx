@@ -11,6 +11,7 @@ import {postQueries} from "../hooks/queries/post.ts";
 import PostEditor, {type FeedEditorInputs} from "../components/PostEditor.tsx";
 import {postMutations} from "../hooks/mutations/post.ts";
 import {type SubmitHandler, useForm} from "react-hook-form";
+import {HTTPError} from "ky";
 
 function PostDetails() {
     const {id} = useParams();
@@ -27,12 +28,27 @@ function PostDetails() {
         register,
         handleSubmit,
         control,
+        reset,
     } = useForm<FeedEditorInputs>({
         shouldFocusError: false,
     });
 
+    const submitCommentMutation = useMutation(
+        postMutations.postComment(
+            id as string,
+            async () => {
+                await queryClient.invalidateQueries(postQueries.replies(id));
+                reset();
+            },
+            async (error) => {
+                if (error instanceof HTTPError) { /* empty */
+                }
+            }
+        )
+    );
+
     const handleFeedEditorSubmit: SubmitHandler<FeedEditorInputs> = async (data: FeedEditorInputs) => {
-        return data;
+        submitCommentMutation.mutate(data.content);
     }
 
     if (isPending) return <div
@@ -92,7 +108,8 @@ function PostDetails() {
                     </div>
                     <div className={styles.comments}>
                         <div className={styles.editor}>
-                            <PostEditor register={register} onSubmit={handleSubmit(handleFeedEditorSubmit)} control={control}/>
+                            <PostEditor register={register} onSubmit={handleSubmit(handleFeedEditorSubmit)}
+                                        control={control}/>
                         </div>
                         <div className={styles.commentList}>
                             {replies?.content?.map(reply => (

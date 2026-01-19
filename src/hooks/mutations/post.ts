@@ -1,9 +1,15 @@
 import {mutationOptions, type QueryClient} from "@tanstack/react-query";
-import {likePost, unlikePost} from "../../services/post.service.ts";
+import {likePost, sendComment, unlikePost} from "../../services/post.service.ts";
 import type {Post} from "../../models/post.model.ts";
 
 export const postMutations = {
-    postComment: () => mutationOptions({}),
+    postComment: (postId: string, onSuccessFn: () => void, onErrorFn: (error: Error) => void) => mutationOptions({
+        mutationFn: (content: string) => sendComment(postId, content),
+        onSuccess: onSuccessFn,
+        onError: onErrorFn,
+        onSettled: () => {
+        }
+    }),
     toggleLike: (queryClient: QueryClient) => mutationOptions({
         mutationFn: async ({postId, wasLiked}: { postId: string, wasLiked: boolean }) => {
             if (wasLiked) {
