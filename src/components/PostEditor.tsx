@@ -1,7 +1,7 @@
 import styles from "../styles/FeedPostEditor.module.css"
 import {ArrowUp} from "lucide-react";
 import {useEffect, useRef} from "react";
-import {type Control, type UseFormRegister, useWatch} from "react-hook-form";
+import {type SubmitHandler, useForm} from "react-hook-form";
 
 
 export type FeedEditorInputs = {
@@ -9,24 +9,29 @@ export type FeedEditorInputs = {
 }
 
 interface FeedPostEditorProps {
-    register: UseFormRegister<FeedEditorInputs>;
-    onSubmit: React.FormEventHandler<HTMLFormElement>;
-    control: Control<FeedEditorInputs>;
+    onSubmit: SubmitHandler<FeedEditorInputs>;
     placeholder?: string;
     defaultValue?: string;
 }
 
 function PostEditor({
-                        register,
                         onSubmit,
-                        control,
                         placeholder = 'Que voulez vous dire ?',
                         defaultValue = ''
                     }: FeedPostEditorProps) {
 
+    const {
+        register,
+        handleSubmit,
+        watch
+    } = useForm<FeedEditorInputs>({
+        shouldFocusError: false,
+
+    });
+
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-    const content = useWatch({name: "content", defaultValue: defaultValue ?? "", control});
+    const content = watch("content", "");
 
 
     const autoResize = () => {
@@ -47,7 +52,7 @@ function PostEditor({
     return (
         <div className={styles.container}>
             <div className={styles.wrap}>
-                <form className={styles.formContainer} onSubmit={onSubmit}>
+                <form className={styles.formContainer} onSubmit={handleSubmit(onSubmit)}>
                     <div className={styles.textContainer}>
                         <textarea
                             id="content"

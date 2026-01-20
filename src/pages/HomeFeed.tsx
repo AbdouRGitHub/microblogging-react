@@ -4,18 +4,11 @@ import PostFeedCard from "../components/PostFeedCard.tsx";
 import {sendPost} from "../services/post.service.ts";
 import {Fragment} from "react";
 import {useInfiniteScroll} from "../hooks/useInfiniteScroll.ts";
-import {type SubmitHandler, useForm} from "react-hook-form";
+import {type SubmitHandler} from "react-hook-form";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {postQueries} from "../hooks/queries/post.ts";
 
 function HomeFeed() {
-    const {
-        register,
-        handleSubmit,
-        control
-    } = useForm<FeedEditorInputs>({
-        shouldFocusError: false,
-    });
 
     const {
         data, fetchNextPage, isPending, isFetching, isError, hasNextPage, refetch,
@@ -43,9 +36,7 @@ function HomeFeed() {
         <>
             <main className={styles.main}>
                 <div className={styles.wrap}>
-                    <PostEditor register={register}
-                                onSubmit={handleSubmit(handleFeedEditorSubmit)
-                                } control={control}/>
+                    <PostEditor onSubmit={handleFeedEditorSubmit}/>
                     <div className={styles.feed}>
                         {
                             data?.pages.map((page) => (

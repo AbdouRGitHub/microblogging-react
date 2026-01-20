@@ -32,7 +32,9 @@ function PostFeedCard({id, userId, content, likes, comments, username, createdAt
             </Link>
             <div className={styles.footer}>
                 <p style={{color: 'grey', fontSize: 'smaller'}}>
-                    <span style={{color: 'grey', fontSize: 'small', fontWeight: 'bolder'}}>{comments} </span> commentaires</p>
+                    <span
+                        style={{color: 'grey', fontSize: 'small', fontWeight: 'bolder'}}>{comments} </span> commentaires
+                </p>
                 <p style={{color: 'grey', fontSize: 'smaller'}}>
                     <span style={{color: 'grey', fontSize: 'small', fontWeight: 'bolder'}}>{likes} </span> likes </p>
             </div>

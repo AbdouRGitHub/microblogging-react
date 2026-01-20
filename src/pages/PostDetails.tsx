@@ -10,8 +10,7 @@ import HeaderTitle from "../components/HeaderTitle.tsx";
 import {postQueries} from "../hooks/queries/post.ts";
 import PostEditor, {type FeedEditorInputs} from "../components/PostEditor.tsx";
 import {postMutations} from "../hooks/mutations/post.ts";
-import {type SubmitHandler, useForm} from "react-hook-form";
-import {HTTPError} from "ky";
+import {type SubmitHandler} from "react-hook-form";
 
 function PostDetails() {
     const {id} = useParams();
@@ -24,28 +23,15 @@ function PostDetails() {
 
     const likeMutation = useMutation(postMutations.toggleLike(queryClient));
 
-    const {
-        register,
-        handleSubmit,
-        control,
-        reset,
-    } = useForm<FeedEditorInputs>({
-        shouldFocusError: false,
+    const submitCommentMutation = useMutation({
+        ...postMutations.postComment(id as string),
+        onSuccess: async () => {
+            await Promise.all([
+                queryClient.invalidateQueries(postQueries.replies(id)),
+                queryClient.invalidateQueries(postQueries.details(id))
+            ]);
+        }
     });
-
-    const submitCommentMutation = useMutation(
-        postMutations.postComment(
-            id as string,
-            async () => {
-                await queryClient.invalidateQueries(postQueries.replies(id));
-                reset();
-            },
-            async (error) => {
-                if (error instanceof HTTPError) { /* empty */
-                }
-            }
-        )
-    );
 
     const handleFeedEditorSubmit: SubmitHandler<FeedEditorInputs> = async (data: FeedEditorInputs) => {
         submitCommentMutation.mutate(data.content);
@@ -108,8 +94,7 @@ function PostDetails() {
                     </div>
                     <div className={styles.comments}>
                         <div className={styles.editor}>
-                            <PostEditor register={register} onSubmit={handleSubmit(handleFeedEditorSubmit)}
-                                        control={control}/>
+                            <PostEditor onSubmit={handleFeedEditorSubmit}/>
                         </div>
                         <div className={styles.commentList}>
                             {replies?.content?.map(reply => (

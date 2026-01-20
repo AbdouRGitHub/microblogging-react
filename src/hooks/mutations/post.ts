@@ -3,12 +3,8 @@ import {likePost, sendComment, unlikePost} from "../../services/post.service.ts"
 import type {Post} from "../../models/post.model.ts";
 
 export const postMutations = {
-    postComment: (postId: string, onSuccessFn: () => void, onErrorFn: (error: Error) => void) => mutationOptions({
+    postComment: (postId: string) => mutationOptions({
         mutationFn: (content: string) => sendComment(postId, content),
-        onSuccess: onSuccessFn,
-        onError: onErrorFn,
-        onSettled: () => {
-        }
     }),
     toggleLike: (queryClient: QueryClient) => mutationOptions({
         mutationFn: async ({postId, wasLiked}: { postId: string, wasLiked: boolean }) => {
