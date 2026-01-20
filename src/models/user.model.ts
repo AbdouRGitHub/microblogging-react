@@ -5,3 +5,9 @@ export interface User {
     roles: string[];
     createdAt: string;
 }
+
+export interface currentUserSummary {
+    id: string;
+    username: string;
+    avatarUrl: string;
+}

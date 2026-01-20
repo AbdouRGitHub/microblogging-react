@@ -4,6 +4,7 @@ import {useState} from "react";
 import {useNavigate} from "react-router";
 import {useMutation} from "@tanstack/react-query";
 import {authQueries} from "../hooks/mutations/auth.ts";
+import {HTTPError} from "ky";
 
 export type Inputs = {
     username: string;
@@ -14,9 +15,17 @@ function SignIn() {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const {mutate, isPending} = useMutation(authQueries.signIn(() => {
+    const {mutate, isPending} = useMutation(authQueries.signIn(async () => {
+
         navigate("/home");
-    }, setErrorMessage));
+    }, async (error) => {
+        if (error instanceof HTTPError) {
+            const message = await error.response.text();
+            setErrorMessage(message);
+        } else {
+            setErrorMessage("Une erreur est survenue, réessayez plus tard");
+        }
+    },));
 
     const {
         register,

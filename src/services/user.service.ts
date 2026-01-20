@@ -6,7 +6,7 @@ async function getUserById(userId: string | undefined): Promise<User> {
 }
 
 async function getMyInfo(): Promise<User> {
-    return await kyClient.get('me').json<User>();
+    return await kyClient.get('accounts/me').json<User>();
 }
 
 async function signUp(username: string, email: string, password: string): Promise<User> {

@@ -51,9 +51,15 @@
     margin-left: 2rem;
 }
 
-.avatar {
+.avatarContainer {
     background-color: whitesmoke;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 0.2rem;
+    width: 1.7rem;
+    height: 1.7rem;
+    border-radius: 0.5rem;
+}
+
+.avatarImg {
+    width: 100%;
+    border-radius: 0.5rem;
+    object-fit: fill;
 }

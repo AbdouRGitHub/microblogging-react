@@ -14,7 +14,7 @@ import {postQueries} from "../hooks/queries/post.ts";
 function Profile() {
     const {id} = useParams();
     const {data: user, error, isError} = useQuery(userQueries.details(id));
-    const {data} = useInfiniteQuery(postQueries.userReplies(id));
+    const {data} = useInfiniteQuery(postQueries.userPosts(id));
 
     if (isError) {
         if (error instanceof HTTPError && (error.response.status === 404 || error.response.status === 400)) {
