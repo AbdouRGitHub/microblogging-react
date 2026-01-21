@@ -11,6 +11,7 @@ import ProfileWithReplies from "./pages/ProfileWithReplies.tsx";
 import SignIn from "./pages/SignIn.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import SignUp from "./pages/SignUp.tsx";
+import AuthModal from "./components/AuthModal.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -23,20 +24,20 @@ const queryClient = new QueryClient({
             retry: false,
         }
     },
-/*    queryCache: new QueryCache({
-        onError: (error: DefaultError) => {
-            if (error instanceof HTTPError && error.response.status === 403) {
-                window.location.href = "/";
+    /*    queryCache: new QueryCache({
+            onError: (error: DefaultError) => {
+                if (error instanceof HTTPError && error.response.status === 403) {
+                    window.location.href = "/";
+                }
             }
-        }
-    }),
-    mutationCache: new MutationCache({
-        onError: (error: DefaultError) => {
-            if (error instanceof HTTPError && error.response.status === 403) {
-                window.location.href = "/";
+        }),
+        mutationCache: new MutationCache({
+            onError: (error: DefaultError) => {
+                if (error instanceof HTTPError && error.response.status === 403) {
+                    window.location.href = "/";
+                }
             }
-        }
-    })*/
+        })*/
 });
 
 // This code is only for TypeScript
@@ -69,6 +70,7 @@ createRoot(document.getElementById('root')!).render(
                     </Route>
                     <Route path="*" element={<NotFound/>}/>
                 </Routes>
+                <AuthModal/>
             </BrowserRouter>
         </QueryClientProvider>
     </StrictMode>,

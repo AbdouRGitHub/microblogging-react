@@ -32,7 +32,7 @@ export const postQueries = {
         queryKey: ['post', id, 'replies'],
         queryFn: () => getRepliesByPostId(id),
         enabled: !!id,
-        retry: true,
+        retry: false,
     }),
     userPosts: (userId: string | undefined) => infiniteQueryOptions({
         queryKey: ['posts', userId],

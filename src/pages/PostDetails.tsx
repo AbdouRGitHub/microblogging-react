@@ -11,15 +11,17 @@ import {postQueries} from "../hooks/queries/post.ts";
 import PostEditor, {type FeedEditorInputs} from "../components/PostEditor.tsx";
 import {postMutations} from "../hooks/mutations/post.ts";
 import {type SubmitHandler} from "react-hook-form";
+import {HTTPError} from "ky";
+import {useAuthModalStore} from "../stores/AuthModalStore.ts";
 
 function PostDetails() {
     const {id} = useParams();
-
+    const open = useAuthModalStore((state) => state.open);
     const queryClient: QueryClient = useQueryClient();
 
     const {data: post, isPending, isError} = useQuery(postQueries.details(id));
 
-    const {data: replies} = useQuery(postQueries.replies(id));
+    const {data: replies} = useQuery(postQueries.replies(post?.id));
 
     const likeMutation = useMutation(postMutations.toggleLike(queryClient));
 
@@ -30,6 +32,11 @@ function PostDetails() {
                 queryClient.invalidateQueries(postQueries.replies(id)),
                 queryClient.invalidateQueries(postQueries.details(id))
             ]);
+        },
+        onError: (error) => {
+            if (error instanceof HTTPError && error.response.status === 403) {
+                open();
+            }
         }
     });
 
@@ -104,6 +111,7 @@ function PostDetails() {
                                               comments={post.commentsCount}
                                               username={reply.account.username}
                                               createdAt={reply.createdAt} width={"100%"}/>
+
                             ))}
                         </div>
                     </div>

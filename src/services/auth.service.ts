@@ -7,4 +7,10 @@ async function signIn(inputs: Inputs) {
     }).json();
 }
 
-export {signIn};
+async function signUp() {
+}
+
+async function signOut() {
+}
+
+export {signIn, signUp, signOut};
