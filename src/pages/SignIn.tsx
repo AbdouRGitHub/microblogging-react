@@ -16,7 +16,6 @@ function SignIn() {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const {mutate, isPending} = useMutation(authQueries.signIn(async () => {
-
         navigate("/home");
     }, async (error) => {
         if (error instanceof HTTPError) {

@@ -1,0 +1,33 @@
+.navSide {
+    width: 200px;
+}
+.nav {
+    list-style: none;
+    padding: 0;
+}
+
+.settingsList {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.navItem {
+    text-align: start;
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 0.3rem;
+    padding: 0.2rem 0.2rem 0 0.2rem;
+    cursor: pointer;
+}
+
+.isActive {
+    text-align: start;
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 0.2rem;
+    padding: 0.2rem 0.2rem 0 0.2rem;
+    cursor: pointer;
+    background-color: lightgrey;
+    border-radius: 0.2rem;
+}

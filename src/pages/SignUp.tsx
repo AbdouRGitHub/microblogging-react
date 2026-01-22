@@ -21,13 +21,7 @@ function SignUp() {
     });
 
     const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
-        const result = await signUp(data.username, data.email, data.password);
-
-        if (result.success) {
-            navigate("/home");
-        } else {
-            setError(result.message ?? "Erreur inconnue");
-        }
+        return await signUp(data.username, data.email, data.password);
     }
 
     return (

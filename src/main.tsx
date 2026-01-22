@@ -12,6 +12,9 @@ import SignIn from "./pages/SignIn.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import SignUp from "./pages/SignUp.tsx";
 import AuthModal from "./components/AuthModal.tsx";
+import AccountSettings from "./pages/AccountSettings.tsx";
+import SettingsLayout from "./layout/SettingsLayout.tsx";
+import ThemeSettings from "./pages/ThemeSettings.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -66,6 +69,10 @@ createRoot(document.getElementById('root')!).render(
                         </Route>
                         <Route path="post">
                             <Route path=":id" element={<PostDetails/>}/>
+                        </Route>
+                        <Route path="settings" element={<SettingsLayout/>}>
+                            <Route index element={<AccountSettings/>}/>
+                            <Route path="apparence" element={<ThemeSettings/>}/>
                         </Route>
                     </Route>
                     <Route path="*" element={<NotFound/>}/>
