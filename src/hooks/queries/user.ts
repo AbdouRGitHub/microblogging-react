@@ -1,8 +1,8 @@
 import {queryOptions} from "@tanstack/react-query";
-import {getMyInfo, getUserById} from "../../services/user.service.ts";
+import {getAccountDetails, getMyInfo, getUserById} from "../../services/user.service.ts";
 
 export const userQueries = {
-    details: (id: string | undefined) => queryOptions({
+    summary: (id: string | undefined) => queryOptions({
         queryKey: ['account', id],
         queryFn: () => getUserById(id),
         staleTime: 30 * 1000,
@@ -12,5 +12,9 @@ export const userQueries = {
         queryFn: () => getMyInfo(),
         staleTime: 1000 * 60 * 15,
         gcTime: Infinity,
+    }),
+    myDetails: () => queryOptions({
+        queryKey: ['account', 'me', 'details'],
+        queryFn: () => getAccountDetails(),
     })
 }

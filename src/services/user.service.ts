@@ -9,6 +9,10 @@ async function getMyInfo(): Promise<User> {
     return await kyClient.get('accounts/me').json<User>();
 }
 
+async function getAccountDetails() {
+    return await kyClient.get('accounts/me/details').json<User>();
+}
+
 async function signUp(username: string, email: string, password: string): Promise<User> {
     return await kyClient.post('accounts', {
         json: {
@@ -17,4 +21,4 @@ async function signUp(username: string, email: string, password: string): Promis
     }).json<User>();
 }
 
-export {getUserById, getMyInfo, signUp};
+export {getUserById, getMyInfo, getAccountDetails, signUp};
