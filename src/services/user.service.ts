@@ -1,6 +1,10 @@
 import type {User} from "../models/user.model.ts";
 import kyClient from "../utils/kyClient.ts";
-import type {UserUpdateFormInputs} from "../pages/AccountSettings.tsx";
+import type {
+    EmailFormData,
+    PasswordFormData,
+    UsernameFormData,
+} from "../pages/AccountSettings.tsx";
 
 async function getUserById(userId: string | undefined): Promise<User> {
     return await kyClient.get(`accounts/${userId}`).json<User>();
@@ -14,7 +18,7 @@ async function getAccountDetails() {
     return await kyClient.get('accounts/me/details').json<User>();
 }
 
-async function updateAccountDetails(updateUserForm: UserUpdateFormInputs) {
+async function updateAccountDetails(updateUserForm: UsernameFormData | EmailFormData | PasswordFormData) {
     return await kyClient.patch('accounts', {
         json: updateUserForm
     }).json();

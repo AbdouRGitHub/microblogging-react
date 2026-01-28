@@ -8,12 +8,19 @@ import {HTTPError} from "ky";
 import AlertMessage from "../components/AlertMessage.tsx";
 
 
-export interface UserUpdateFormInputs {
-    username?: string;
-    email?: string;
-    newPassword?: string;
+export interface UsernameFormData {
+    username: string;
+};
+
+export interface EmailFormData {
+    email: string;
+};
+
+export interface PasswordFormData {
+    currentPassword: string;
+    newPassword: string;
     confirmPassword?: string;
-}
+};
 
 function AccountSettings() {
     const {data: user} = useQuery(userQueries.myDetails());
@@ -21,17 +28,25 @@ function AccountSettings() {
     const [success, setSuccess] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
-    const {
-        register,
-        handleSubmit,
-        formState: {errors, dirtyFields}
-    } = useForm<UserUpdateFormInputs>({
+    const usernameForm = useForm<UsernameFormData>({
         shouldFocusError: false,
         mode: "onSubmit",
         values: {
             username: user ? user.username : "",
+        }
+    });
+
+    const emailForm = useForm<EmailFormData>({
+        shouldFocusError: false,
+        mode: "onSubmit",
+        values: {
             email: user ? user.email : ""
-        },
+        }
+    });
+
+    const passwordForm = useForm<PasswordFormData>({
+        shouldFocusError: false,
+        mode: "onSubmit",
         defaultValues: {
             newPassword: "",
             confirmPassword: ""
@@ -74,9 +89,26 @@ function AccountSettings() {
         }
     });
 
-    const onSubmit = async (data: UserUpdateFormInputs) => {
+    const onUsernameSubmit = async (data: UsernameFormData) => {
         setError(null);
+        setSuccess(null);
         userMutation.mutate(data);
+    };
+
+    const onEmailSubmit = async (data: EmailFormData) => {
+        setError(null);
+        setSuccess(null);
+        userMutation.mutate(data);
+    };
+
+    const onPasswordSubmit = async (data: PasswordFormData) => {
+        setError(null);
+        setSuccess(null);
+        if (data.newPassword !== data.confirmPassword) {
+            setError("Les mots de passe ne correspondent pas");
+        } else {
+            userMutation.mutate({currentPassword: data.currentPassword, newPassword: data.newPassword});
+        }
     };
 
     return (
@@ -84,39 +116,44 @@ function AccountSettings() {
             <div className={styles.content}>
                 {(error && !success) && <AlertMessage type="error" message={error}/>}
                 {(success && !error) && <AlertMessage type="success" message={success}/>}
-                <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+                <form className={styles.form} onSubmit={usernameForm.handleSubmit(onUsernameSubmit)}>
                     <label htmlFor="username">Nom d'utilisateur</label>
-                    <input {...register("username", {minLength: 5, maxLength: 20})}
+                    <input {...usernameForm.register("username", {minLength: 5, maxLength: 20})}
                            className={styles.settingsInput}/>
                     {
-                        (errors.username?.type === "minLength" || errors.username?.type === "maxLength")
+                        (usernameForm.formState.errors.username?.type === "minLength" || usernameForm.formState.errors.username?.type === "maxLength")
                         && <p className={styles.errorInputMessage}> Le nom d'utilisateur doit contenir entre 5 et 20
                             caractères</p>
                     }
                     {
-                        dirtyFields.username && <input type="submit" className={styles.settingsSubmit}
-                                                       value="Enregistrer le nom d'utilisateur"/>
+                        usernameForm.formState.isDirty && <input type="submit" className={styles.settingsSubmit}
+                                                                 value="Enregistrer le nom d'utilisateur"/>
                     }
                 </form>
 
-                <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+                <form className={styles.form} onSubmit={emailForm.handleSubmit(onEmailSubmit)}>
                     <label htmlFor="email">Adresse mail</label>
-                    <input {...register("email")} className={styles.settingsInput}/>
+                    <input {...emailForm.register("email")} className={styles.settingsInput}/>
                     {
-                        dirtyFields.email &&
+                        emailForm.formState.isDirty &&
                         <input type="submit" className={styles.settingsSubmit} value="Enregisrer l'adresse mail"/>
                     }
                 </form>
 
-                <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+                <form className={styles.form} onSubmit={passwordForm.handleSubmit(onPasswordSubmit)}>
                     <label htmlFor="password">Mot de passe</label>
-                    <input placeholder="nouveau mot de passe" {...register("newPassword")}
+                    <input type="password"
+                           placeholder="mot de passe actuel" {...passwordForm.register("currentPassword")}
                            className={styles.settingsInput}/>
-                    <input placeholder="confirmez le nouveau mot de passe" {...register("confirmPassword")}
+                    <input type="password" placeholder="nouveau mot de passe" {...passwordForm.register("newPassword")}
+                           className={styles.settingsInput}/>
+                    <input type="password"
+                           placeholder="confirmez le nouveau mot de passe" {...passwordForm.register("confirmPassword")}
                            className={styles.settingsInput}/>
                     {
-                        dirtyFields.confirmPassword && <input type="submit" className={styles.settingsSubmit}
-                                                              value="Enregistrer le mot de passe"/>
+                        passwordForm.formState.isDirty
+                        && <input type="submit" className={styles.settingsSubmit}
+                                  value="Enregistrer le mot de passe"/>
                     }
                 </form>
             </div>
