@@ -12,7 +12,7 @@ import {postQueries} from "../hooks/queries/post.ts";
 function ProfileWithReplies() {
     const {id} = useParams();
 
-    const {data: user} = useQuery(userQueries.details(id));
+    const {data: user} = useQuery(userQueries.summary(id));
 
     const {data} = useInfiniteQuery(postQueries.userReplies(id));
 

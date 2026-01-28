@@ -5,6 +5,7 @@ import {useNavigate} from "react-router";
 import {useMutation} from "@tanstack/react-query";
 import {authQueries} from "../hooks/mutations/auth.ts";
 import {HTTPError} from "ky";
+import AlertMessage from "../components/AlertMessage.tsx";
 
 export type Inputs = {
     username: string;
@@ -44,7 +45,7 @@ function SignIn() {
                     <div className={styles.mainContainer}>
                         <h1 className={styles.title}>Connexion</h1>
                         <div className={styles.form}>
-                            {errorMessage && <div className={styles.errorContainer}><p>{errorMessage}</p></div>}
+                            {errorMessage && <AlertMessage type="error" message={errorMessage}/>}
                             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                                 <input type="text" placeholder="pseudo"
                                        autoComplete="username"

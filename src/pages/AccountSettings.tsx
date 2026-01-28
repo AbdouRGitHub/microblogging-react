@@ -1,83 +1,122 @@
 import styles from "../styles/AccountSettings.module.css";
 import {useForm} from "react-hook-form";
-import {useQuery} from "@tanstack/react-query";
+import {type QueryClient, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {userQueries} from "../hooks/queries/user.ts";
+import {useState} from "react";
+import {userMutations} from "../hooks/mutations/user.ts";
+import {HTTPError} from "ky";
+import AlertMessage from "../components/AlertMessage.tsx";
 
 
-interface UsernameFormInputs {
-    username: string;
-}
-
-interface EmailFormInputs {
-    email: string;
-}
-
-interface PasswordFormInputs {
-    newPassword: string;
-    confirmPassword: string;
+export interface UserUpdateFormInputs {
+    username?: string;
+    email?: string;
+    newPassword?: string;
+    confirmPassword?: string;
 }
 
 function AccountSettings() {
     const {data: user} = useQuery(userQueries.myDetails());
+    const queryClient: QueryClient = useQueryClient();
+    const [success, setSuccess] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
-    const usernameForm = useForm<UsernameFormInputs>({
+    const {
+        register,
+        handleSubmit,
+        formState: {errors, dirtyFields}
+    } = useForm<UserUpdateFormInputs>({
+        shouldFocusError: false,
+        mode: "onSubmit",
         values: {
-            username: user ? user.username : ""
-        }
-    });
-    const emailForm = useForm<EmailFormInputs>({
-        values: {
+            username: user ? user.username : "",
             email: user ? user.email : ""
-        }
-    });
-    const passwordForm = useForm<PasswordFormInputs>({
+        },
         defaultValues: {
             newPassword: "",
             confirmPassword: ""
         }
     });
 
-    const usernameIsDirty: boolean = usernameForm.formState.isDirty;
-    const emailIsDirty: boolean = emailForm.formState.isDirty;
-    const passwordIsDirty: boolean = passwordForm.formState.isDirty;
+    const userMutation = useMutation({
+        ...userMutations.update,
+        onSuccess: async () => {
+            await queryClient.invalidateQueries(userQueries.myDetails());
+            setSuccess("Profil mis à jour");
+        },
+        onMutate: async (updateUserForm, context) => {
+            await context.client.cancelQueries(userQueries.myDetails());
+            const previousUser = context.client.getQueryData(userQueries.myDetails().queryKey);
 
-    const onSubmitUsername = usernameForm.handleSubmit(async (data: UsernameFormInputs) => {
+            context.client.setQueryData(userQueries.myDetails().queryKey, (oldUserData) => {
+                if (oldUserData) {
+                    return {
+                        ...oldUserData,
+                        ...updateUserForm,
+                    }
+                }
+            });
+            return {previousUser};
+        },
+        onError: async (error, _updateUserForm, onMutateResult, context) => {
+            if (onMutateResult?.previousUser) {
+                context.client.setQueryData(userQueries.myDetails().queryKey, onMutateResult.previousUser);
+            }
+            if (error instanceof HTTPError) {
+                const message = await error.response.text();
+                setError(message);
+            } else {
+                setError("Une erreur est survenue, réessayez plus tard");
+            }
+        },
+        onSettled: async (_data, _error, _variables, _onMutateResult, context) => {
+            await context.client.cancelQueries(userQueries.myDetails());
+        }
     });
-    const onSubmitEmail = emailForm.handleSubmit(async (data: EmailFormInputs) => {
-    });
-    const onSubmitPassword = passwordForm.handleSubmit(async (data: PasswordFormInputs) => {
-    });
+
+    const onSubmit = async (data: UserUpdateFormInputs) => {
+        setError(null);
+        userMutation.mutate(data);
+    };
 
     return (
         <>
             <div className={styles.content}>
-                <form className={styles.form}>
+                {(error && !success) && <AlertMessage type="error" message={error}/>}
+                {(success && !error) && <AlertMessage type="success" message={success}/>}
+                <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
                     <label htmlFor="username">Nom d'utilisateur</label>
-                    <input {...usernameForm.register("username")} className={styles.settingsInput}/>
+                    <input {...register("username", {minLength: 5, maxLength: 20})}
+                           className={styles.settingsInput}/>
                     {
-                        usernameIsDirty && <input type="submit" className={styles.settingsSubmit}
-                                                  value="Enregistrer le nom d'utilisateur"/>
+                        (errors.username?.type === "minLength" || errors.username?.type === "maxLength")
+                        && <p className={styles.errorInputMessage}> Le nom d'utilisateur doit contenir entre 5 et 20
+                            caractères</p>
+                    }
+                    {
+                        dirtyFields.username && <input type="submit" className={styles.settingsSubmit}
+                                                       value="Enregistrer le nom d'utilisateur"/>
                     }
                 </form>
 
-                <form className={styles.form}>
+                <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
                     <label htmlFor="email">Adresse mail</label>
-                    <input {...emailForm.register("email")} className={styles.settingsInput}/>
+                    <input {...register("email")} className={styles.settingsInput}/>
                     {
-                        emailIsDirty &&
-                        <input type="submit" className={styles.settingsSubmit} value="Enregisrer le nom d'utilisateur"/>
+                        dirtyFields.email &&
+                        <input type="submit" className={styles.settingsSubmit} value="Enregisrer l'adresse mail"/>
                     }
                 </form>
 
-                <form className={styles.form}>
+                <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
                     <label htmlFor="password">Mot de passe</label>
-                    <input placeholder="nouveau mot de passe" {...passwordForm.register("newPassword")}
+                    <input placeholder="nouveau mot de passe" {...register("newPassword")}
                            className={styles.settingsInput}/>
-                    <input placeholder="confirmez le nouveau mot de passe" {...passwordForm.register("confirmPassword")}
+                    <input placeholder="confirmez le nouveau mot de passe" {...register("confirmPassword")}
                            className={styles.settingsInput}/>
                     {
-                        passwordIsDirty && <input type="submit" className={styles.settingsSubmit}
-                                                  value="Enregistrer le nom d'utilisateur"/>
+                        dirtyFields.confirmPassword && <input type="submit" className={styles.settingsSubmit}
+                                                              value="Enregistrer le mot de passe"/>
                     }
                 </form>
             </div>

@@ -7,6 +7,7 @@
     padding: 1rem;
     background-color: lightgrey;
     border-radius: 0.5rem;
+    gap: 1rem;
 }
 
 .form {
@@ -16,6 +17,12 @@
     gap: 0.5rem;
     width: 100%;
     margin-bottom: 1rem;
+}
+
+.errorInputMessage {
+    color: red;
+    font-weight: bold;
+    font-size: 10px;
 }
 
 .settingsInput {
