@@ -48,6 +48,7 @@ function AccountSettings() {
         shouldFocusError: false,
         mode: "onSubmit",
         defaultValues: {
+            currentPassword: "",
             newPassword: "",
             confirmPassword: ""
         }
