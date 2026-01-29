@@ -15,6 +15,9 @@
 }
 
 .navItem {
+    display: inline-flex;
+    justify-content: center;
+    gap: 10px;
     width: 100%;
     height: 30px;
     text-align: center;
@@ -22,15 +25,15 @@
     color: inherit;
     margin-bottom: 0.3rem;
     cursor: pointer;
+    padding: 5px 10px;
 }
 
 .isActive {
-    height: 30px;
-    text-align: center;
-    text-decoration: none;
-    color: inherit;
-    margin-bottom: 0.2rem;
-    cursor: pointer;
     background-color: lightgrey;
-    border-radius: 0.2rem;
+    font-weight: bold;
+}
+
+.settingsIcon {
+    width: 18px;
+    height: 18px;
 }
