@@ -19,7 +19,7 @@
     padding: 1rem;
     row-gap: 1rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
-    background-color: var(--primary-background-color);
+    background-color: var(--background-color);
 }
 
 .closeContainer {
