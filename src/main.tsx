@@ -15,6 +15,7 @@ import AuthModal from "./components/AuthModal.tsx";
 import AccountSettings from "./pages/AccountSettings.tsx";
 import SettingsLayout from "./layout/SettingsLayout.tsx";
 import ThemeSettings from "./pages/ThemeSettings.tsx";
+import ThemeLayout from "./layout/ThemeLayout.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -26,21 +27,7 @@ const queryClient = new QueryClient({
         mutations: {
             retry: false,
         }
-    },
-    /*    queryCache: new QueryCache({
-            onError: (error: DefaultError) => {
-                if (error instanceof HTTPError && error.response.status === 403) {
-                    window.location.href = "/";
-                }
-            }
-        }),
-        mutationCache: new MutationCache({
-            onError: (error: DefaultError) => {
-                if (error instanceof HTTPError && error.response.status === 403) {
-                    window.location.href = "/";
-                }
-            }
-        })*/
+    }
 });
 
 // This code is only for TypeScript
@@ -59,27 +46,30 @@ createRoot(document.getElementById('root')!).render(
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
                 <Routes>
-                    <Route index element={<SignIn/>}/>
-                    <Route path="signUp" element={<SignUp/>}/>
-                    <Route element={<RootLayout/>}>
-                        <Route index path="home" element={<HomeFeed/>}/>
-                        <Route path=":id">
-                            <Route index element={<Profile/>}/>
-                            <Route path="replies" element={<ProfileWithReplies/>}/>
+                    <Route element={<ThemeLayout/>}>
+                        <Route index element={<SignIn/>}/>
+                        <Route path="signUp" element={<SignUp/>}/>
+                        <Route element={<RootLayout/>}>
+                            <Route index path="home" element={<HomeFeed/>}/>
+                            <Route path=":id">
+                                <Route index element={<Profile/>}/>
+                                <Route path="replies" element={<ProfileWithReplies/>}/>
+                            </Route>
+                            <Route path="post">
+                                <Route path=":id" element={<PostDetails/>}/>
+                            </Route>
+                            <Route path="settings" element={<SettingsLayout/>}>
+                                <Route index element={<AccountSettings/>}/>
+                                <Route path="apparence" element={<ThemeSettings/>}/>
+                            </Route>
                         </Route>
-                        <Route path="post">
-                            <Route path=":id" element={<PostDetails/>}/>
-                        </Route>
-                        <Route path="settings" element={<SettingsLayout/>}>
-                            <Route index element={<AccountSettings/>}/>
-                            <Route path="apparence" element={<ThemeSettings/>}/>
-                        </Route>
+                        <Route path="*" element={<NotFound/>}/>
                     </Route>
-                    <Route path="*" element={<NotFound/>}/>
                 </Routes>
                 <AuthModal/>
             </BrowserRouter>
         </QueryClientProvider>
-    </StrictMode>,
+    </StrictMode>
+    ,
 );
 

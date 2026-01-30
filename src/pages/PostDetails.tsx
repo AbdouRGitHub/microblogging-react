@@ -12,7 +12,7 @@ import PostEditor, {type FeedEditorInputs} from "../components/PostEditor.tsx";
 import {postMutations} from "../hooks/mutations/post.ts";
 import {type SubmitHandler} from "react-hook-form";
 import {HTTPError} from "ky";
-import {useAuthModalStore} from "../stores/AuthModalStore.ts";
+import {useAuthModalStore} from "../stores/authModalStore.ts";
 
 function PostDetails() {
     const {id} = useParams();
