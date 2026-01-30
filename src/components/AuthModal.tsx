@@ -1,7 +1,7 @@
 import styles from "../styles/AuthModal.module.css";
 import {X} from "lucide-react";
 import {createPortal} from "react-dom";
-import {useAuthModalStore} from "../stores/AuthModalStore.ts";
+import {useAuthModalStore} from "../stores/authModalStore.ts";
 import {useEffect} from "react";
 import {NavLink} from "react-router";
 
