@@ -63,7 +63,7 @@
 }
 
 .navItem:hover {
-    background-color: lightgrey;
+    background-color: var(--foreground-color);
 }
 
 .link{
@@ -81,7 +81,7 @@
     height: 100%;
     text-align: center;
     padding: 0.5rem;
-    background-color: lightgrey;
+    background-color: var(--foreground-color-active);
     text-decoration: none;
     user-select: none;
     color: grey;

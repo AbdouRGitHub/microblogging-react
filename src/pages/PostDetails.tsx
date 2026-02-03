@@ -13,6 +13,7 @@ import {postMutations} from "../hooks/mutations/post.ts";
 import {type SubmitHandler} from "react-hook-form";
 import {HTTPError} from "ky";
 import {useAuthModalStore} from "../stores/authModalStore.ts";
+import type {Post} from "../models/post.model.ts";
 
 function PostDetails() {
     const {id} = useParams();
@@ -23,7 +24,30 @@ function PostDetails() {
 
     const {data: replies} = useQuery(postQueries.replies(post?.id));
 
-    const likeMutation = useMutation(postMutations.toggleLike(queryClient));
+    const likeMutation = useMutation({
+        ...postMutations.toggleLike(),
+        onMutate: async ({postId}) => {
+            await queryClient.cancelQueries({queryKey: ['post', postId]});
+
+            const previousPost = queryClient.getQueryData(['post', postId]);
+
+            queryClient.setQueryData(['post', postId], (old: Post) => ({
+                ...old,
+                like: {
+                    liked: !old.like.liked,
+                    count: old.like.liked ? old.like.count - 1 : old.like.count + 1
+                }
+            }));
+            return {previousPost};
+        },
+        onError: (error, {postId}, context) => {
+            queryClient.setQueryData(['post', postId], context?.previousPost);
+            if (error instanceof HTTPError && error.response.status === 403) {
+                open();
+            }
+        },
+        onSettled: (_data, _err, {postId}) => queryClient.invalidateQueries({queryKey: ['post', postId]}),
+    });
 
     const submitCommentMutation = useMutation({
         ...postMutations.postComment(id as string),

@@ -28,8 +28,12 @@
     padding: 5px 10px;
 }
 
+.navItem:hover {
+    background-color: var(--foreground-color);
+}
+
 .isActive {
-    background-color: lightgrey;
+    background-color: var(--foreground-color-active);
     font-weight: bold;
 }
 

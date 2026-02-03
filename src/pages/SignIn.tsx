@@ -47,7 +47,7 @@ function SignIn() {
                         <div className={styles.form}>
                             {errorMessage && <AlertMessage type="error" message={errorMessage}/>}
                             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-                                <input type="text" placeholder="pseudo"
+                                <input type="text" placeholder="nom d'utilisateur"
                                        autoComplete="username"
                                        className={styles.input} {...register("username", {required: true})}/>
                                 <input type="password" placeholder="mot de passe"
@@ -58,7 +58,7 @@ function SignIn() {
                             </form>
                         </div>
                     </div>
-                    <p> Un projet par <a href="https://github.com/AbdouRGitHub"> AbdouRGitHub</a></p>
+                    <p> Un projet par <a href="https://github.com/AbdouRGitHub" className={styles.linkGithub}> AbdouRGitHub</a></p>
                 </div>
             </main>
         </>
