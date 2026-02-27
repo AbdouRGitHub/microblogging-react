@@ -1,7 +1,7 @@
 import styles from "../styles/SignIn.module.css";
 import {type SubmitHandler, useForm} from "react-hook-form";
 import {useState} from "react";
-import {useNavigate} from "react-router";
+import {Link, useNavigate} from "react-router";
 import {useMutation} from "@tanstack/react-query";
 import {authQueries} from "../hooks/mutations/auth.ts";
 import {HTTPError} from "ky";
@@ -58,6 +58,7 @@ function SignIn() {
                             </form>
                         </div>
                     </div>
+                    <p> Pas encore de compte ? <Link to="signUp" className={styles.link}> S'inscrire </Link> </p>
                     <p> Un projet par <a href="https://github.com/AbdouRGitHub" className={styles.linkGithub}> AbdouRGitHub</a></p>
                 </div>
             </main>
