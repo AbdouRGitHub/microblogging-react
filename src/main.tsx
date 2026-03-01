@@ -1,20 +1,20 @@
 import {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'
 import './assets/index.css'
-import HomeFeed from "./pages/HomeFeed.tsx";
+import HomeFeed from "./features/home/HomeFeed.tsx";
 import {BrowserRouter, Route, Routes} from "react-router";
-import PostDetails from "./pages/PostDetails.tsx";
+import PostDetails from "./features/post/PostDetails.tsx";
 import RootLayout from "./layout/RootLayout.tsx";
-import Profile from "./pages/Profile.tsx";
+import Profile from "./features/profile/Profile.tsx";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import ProfileWithReplies from "./pages/ProfileWithReplies.tsx";
-import SignIn from "./pages/SignIn.tsx";
+import ProfileWithReplies from "./features/profile/ProfileWithReplies.tsx";
+import SignIn from "./features/auth/SignIn.tsx";
 import NotFound from "./pages/NotFound.tsx";
-import SignUp from "./pages/SignUp.tsx";
-import AuthModal from "./components/AuthModal.tsx";
-import AccountSettings from "./pages/AccountSettings.tsx";
-import SettingsLayout from "./layout/SettingsLayout.tsx";
-import ThemeSettings from "./pages/ThemeSettings.tsx";
+import SignUp from "./features/auth/SignUp.tsx";
+import AuthModal from "./features/auth/components/AuthModal.tsx";
+import AccountSettings from "./features/settings/AccountSettings.tsx";
+import SettingsLayout from "./features/settings/layout/SettingsLayout.tsx";
+import ThemeSettings from "./features/settings/ThemeSettings.tsx";
 import ThemeLayout from "./layout/ThemeLayout.tsx";
 
 const queryClient = new QueryClient({

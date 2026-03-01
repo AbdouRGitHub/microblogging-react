@@ -1,5 +1,5 @@
 import {Outlet} from "react-router";
-import RootHeader from "../components/RootHeader.tsx";
+import RootHeader from "../shared/components/RootHeader.tsx";
 
 function RootLayout() {
 

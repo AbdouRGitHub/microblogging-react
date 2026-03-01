@@ -1,6 +1,6 @@
-import profileStyles from "../styles/Profile.module.css";
-import styles from "../styles/Profile.module.css";
-import HeaderTitle from "../components/HeaderTitle.tsx";
+import profileStyles from "../features/profile/styles/Profile.module.css";
+import styles from "../features/profile/styles/Profile.module.css";
+import HeaderTitle from "../shared/components/HeaderTitle.tsx";
 
 function AccountNotFound() {
     return (

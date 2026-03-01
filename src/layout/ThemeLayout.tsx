@@ -1,5 +1,5 @@
 import {Outlet} from "react-router";
-import {useThemeStore} from "../stores/themeStore.ts";
+import {useThemeStore} from "../features/theme/stores/themeStore.ts";
 import {useEffect} from "react";
 
 function ThemeLayout() {
