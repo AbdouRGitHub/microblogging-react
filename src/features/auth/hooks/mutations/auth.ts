@@ -1,5 +1,5 @@
 import {mutationOptions} from "@tanstack/react-query";
-import {signIn} from "../../services/auth.service.ts";
+import {signIn, signUp} from "../../services/auth.service.ts";
 
 export const authQueries = {
     signIn: (onSuccessFn: () => void, onErrorFn: (error: Error) => void) => mutationOptions({
@@ -7,4 +7,7 @@ export const authQueries = {
         onSuccess: onSuccessFn,
         onError: onErrorFn
     }),
+    signUp: () => mutationOptions({
+        mutationFn: signUp
+    })
 }

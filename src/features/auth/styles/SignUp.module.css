@@ -65,3 +65,9 @@
     cursor: pointer;
     width: 100%;
 }
+
+.linkGithub {
+    color: var(--primary-font-color);
+    text-decoration: none;
+    font-weight: bold;
+}

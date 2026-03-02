@@ -67,6 +67,12 @@
     color: var(--primary-font-color);
 }
 
+.link {
+    color: var(--primary-font-color);
+    text-decoration: white underline;
+    font-weight: bold;
+}
+
 .linkGithub {
     color: var(--primary-font-color);
     text-decoration: none;

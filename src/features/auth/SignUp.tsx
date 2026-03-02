@@ -1,27 +1,45 @@
 import {useNavigate} from "react-router";
 import {useState} from "react";
 import {type SubmitHandler, useForm} from "react-hook-form";
-import styles from "./styles/SignIn.module.css";
-import {signUp} from "../user/services/user.service.ts";
+import styles from "../styles/SignIn.module.css";
+import {useMutation} from "@tanstack/react-query";
+import {HTTPError} from "ky";
+import {authQueries} from "./hooks/queries/auth.ts";
+
+export type SignUpInputs = {
+    username: string;
+    email: string;
+    password: string;
+}
 
 function SignUp() {
     const navigate = useNavigate();
-    const [error, setError] = useState<string | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    type Inputs = {
-        username: string;
-        email: string;
-        password: string;
-    }
     const {
         register,
         handleSubmit,
-    } = useForm<Inputs>({
+    } = useForm<SignUpInputs>({
         shouldFocusError: false,
     });
 
-    const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
-        return await signUp(data.username, data.email, data.password);
+    const {mutate, isPending} = useMutation({
+        ...authQueries.signUp(),
+        onSuccess: () => {
+            navigate("/home");
+        },
+        onError: async (error) => {
+            if (error instanceof HTTPError) {
+                const message = await error.response.text();
+                setErrorMessage(message);
+            } else {
+                setErrorMessage("Une erreur est survenue, réessayez plus tard");
+            }
+        }
+    });
+
+    const onSubmit: SubmitHandler<SignUpInputs> = async (data: SignUpInputs) => {
+        mutate(data);
     }
 
     return (
@@ -31,9 +49,9 @@ function SignUp() {
                     <div className={styles.mainContainer}>
                         <h1 className={styles.title}>Inscription</h1>
                         <div className={styles.form}>
-                            {error && <div className={styles.errorContainer}><p>{error}</p></div>}
+                            {errorMessage && <div className={styles.errorContainer}><p>{errorMessage}</p></div>}
                             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-                                <input type="text" placeholder="pseudo"
+                                <input type="text" placeholder="nom d'utilisateur"
                                        autoComplete="username"
                                        className={styles.input} {...register("username", {required: true})}/>
                                 <input type="email" placeholder="adresse mail"
@@ -42,11 +60,10 @@ function SignUp() {
                                 <input type="password" placeholder="mot de passe"
                                        autoComplete="current-password"
                                        className={styles.input} {...register("password", {required: true})}/>
-                                <input type="submit" value="S'inscrire" className={styles.submitBtn}/>
+                                <input type="submit" value="S'inscrire" className={styles.submitBtn} disabled={isPending}/>
                             </form>
                         </div>
                     </div>
-                    <p> Un projet par <a href="https://github.com/AbdouRGitHub"> AbdouRGitHub</a></p>
                 </div>
             </main>
         </>
