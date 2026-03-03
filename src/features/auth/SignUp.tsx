@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router";
 import {useState} from "react";
 import {type SubmitHandler, useForm} from "react-hook-form";
-import styles from "../styles/SignIn.module.css";
+import styles from "./styles/SignUp.module.css"
 import {useMutation} from "@tanstack/react-query";
 import {HTTPError} from "ky";
 import {authQueries} from "./hooks/queries/auth.ts";
@@ -26,7 +26,7 @@ function SignUp() {
     const {mutate, isPending} = useMutation({
         ...authQueries.signUp(),
         onSuccess: () => {
-            navigate("/home");
+            navigate("/");
         },
         onError: async (error) => {
             if (error instanceof HTTPError) {

@@ -58,6 +58,9 @@
 }
 
 .submitBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: cornflowerblue;
     border: none;
     border-radius: 0.3rem;

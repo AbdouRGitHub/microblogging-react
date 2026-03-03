@@ -15,6 +15,7 @@ async function signUp(inputs: SignUpInputs) {
 }
 
 async function signOut() {
+    return await kyClient.post('auth/logout').json();
 }
 
 export {signIn, signUp, signOut};

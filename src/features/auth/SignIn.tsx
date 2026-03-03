@@ -6,6 +6,9 @@ import {useMutation} from "@tanstack/react-query";
 import {authQueries} from "./hooks/mutations/auth.ts";
 import {HTTPError} from "ky";
 import AlertMessage from "../../shared/components/AlertMessage.tsx";
+import Input from "../../shared/components/Input.tsx";
+import Button from "../../shared/components/Button.tsx";
+import SpinnerLoader from "../../shared/components/SpinnerLoader.tsx";
 
 export type Inputs = {
     username: string;
@@ -47,19 +50,20 @@ function SignIn() {
                         <div className={styles.form}>
                             {errorMessage && <AlertMessage type="error" message={errorMessage}/>}
                             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-                                <input type="text" placeholder="nom d'utilisateur"
-                                       autoComplete="username"
-                                       className={styles.input} {...register("username", {required: true})}/>
-                                <input type="password" placeholder="mot de passe"
-                                       autoComplete="current-password"
-                                       className={styles.input} {...register("password", {required: true})}/>
-                                <input type="submit" value="Se connecter" className={styles.submitBtn}
-                                       disabled={isPending}/>
+                                <Input type="text" placeholder="nom d'utilisateur" autoComplete="username"
+                                       register={register("username", {required: true})}/>
+                                <Input type="password" placeholder="mot de passe" autoComplete="current-password"
+                                       register={register("password", {required: true})}/>
+                                <Button type="submit" className={styles.submitBtn}
+                                        disabled={isPending}>
+                                    {isPending ? <SpinnerLoader/> : "Se connecter"}
+                                </Button>
                             </form>
                         </div>
                     </div>
-                    <p> Pas encore de compte ? <Link to="signUp" className={styles.link}> S'inscrire </Link> </p>
-                    <p> Un projet par <a href="https://github.com/AbdouRGitHub" className={styles.linkGithub}> AbdouRGitHub</a></p>
+                    <p> Pas encore de compte ? <Link to="signUp" className={styles.link}> S'inscrire </Link></p>
+                    <p> Un projet par <a href="https://github.com/AbdouRGitHub"
+                                         className={styles.linkGithub}> AbdouRGitHub</a></p>
                 </div>
             </main>
         </>
