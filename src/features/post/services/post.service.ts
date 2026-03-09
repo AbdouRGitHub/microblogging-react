@@ -19,7 +19,6 @@ async function getRepliesByPostId(postId: string | undefined): Promise<PageResul
 }
 
 async function getPostsByUserId(pageParam: number, userId: string | undefined): Promise<PageResult<Post>> {
-
     return await kyClient.get(`posts/by-user/${userId}?page=${pageParam}`).json<PageResult<Post>>();
 }
 
@@ -34,7 +33,7 @@ async function sendPost(content: string): Promise<Post> {
 }
 
 async function sendComment(postId: string, content: string) {
-    return await kyClient.post(`posts/${postId}/comments`, {
+    return kyClient.post(`posts/${postId}/comments`, {
         json: {content},
     });
 }

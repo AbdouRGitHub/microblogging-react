@@ -16,6 +16,7 @@ import AccountSettings from "./features/settings/AccountSettings.tsx";
 import SettingsLayout from "./features/settings/layout/SettingsLayout.tsx";
 import ThemeSettings from "./features/settings/ThemeSettings.tsx";
 import ThemeLayout from "./layout/ThemeLayout.tsx";
+import BookMark from "./features/bookmark/BookMark.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -51,6 +52,7 @@ createRoot(document.getElementById('root')!).render(
                         <Route path="signUp" element={<SignUp/>}/>
                         <Route element={<RootLayout/>}>
                             <Route index path="home" element={<HomeFeed/>}/>
+                            <Route path="bookmarks" element={<BookMark/>}/>
                             <Route path=":id">
                                 <Route index element={<Profile/>}/>
                                 <Route path="replies" element={<ProfileWithReplies/>}/>

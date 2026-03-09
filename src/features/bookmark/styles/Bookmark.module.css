@@ -1,0 +1,23 @@
+.main {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem auto 0;
+    max-width: 40rem;
+    row-gap: 2rem;
+}
+
+.feed {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 1rem;
+    width: 100%;
+}

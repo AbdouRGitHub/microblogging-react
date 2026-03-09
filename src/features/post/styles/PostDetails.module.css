@@ -92,6 +92,12 @@
     height: 3rem;
     display: flex;
     align-items: center;
+    column-gap: 5rem;
+}
+
+.footerContainer {
+    display: flex;
+    align-items: center;
     column-gap: 0.5rem;
 }
 
@@ -112,6 +118,11 @@
     color: #74BEDB;
     cursor: pointer;
     fill: #74BEDB;
+}
+
+.commentSpan {
+    color: grey;
+    font-size: 1rem;
 }
 
 .likeBtn {
@@ -135,6 +146,39 @@
     color: #FE7918;
     cursor: pointer;
     fill: #FE7918;
+}
+
+.likeSpan {
+    color: grey;
+    font-size: 1rem;
+}
+
+.bookMarkBtn {
+    display: flex;
+    align-items: center;
+    background-color: inherit;
+    gap: 0.5rem;
+    border: none;
+    font-size: 1rem;
+    border-radius: 30%;
+    color: grey;
+    width: 22px;
+    height: 22px;
+}
+
+.bookMarkBtn.active {
+    color: #1868fe;
+}
+
+.bookMarkIcon:hover {
+    color: #1868fe;
+    cursor: pointer;
+    fill: #1868fe;
+}
+
+.bookMarkSpan {
+    color: grey;
+    font-size: 1rem;
 }
 
 .comments {

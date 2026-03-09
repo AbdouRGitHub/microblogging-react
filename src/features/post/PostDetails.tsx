@@ -1,6 +1,6 @@
 import {Link, useParams} from "react-router";
 import styles from "./styles/PostDetails.module.css";
-import {MessageSquare, Heart} from "lucide-react";
+import {MessageSquare, Heart, Bookmark} from "lucide-react";
 import {format} from "date-fns";
 import {fr} from "date-fns/locale";
 import PostFeedCard from "./components/PostFeedCard.tsx";
@@ -100,27 +100,38 @@ function PostDetails() {
                             </div>
                         </div>
                         <div className={styles.footer}>
-                            <button className={styles.commentBtn}>
-                                <MessageSquare className={styles.commentIcon}/>
-                            </button>
-                            <span
-                                style={{color: "grey"}}>{post.commentsCount > 1 ? `${post.commentsCount} commentaires` : `${post?.commentsCount}`}</span>
-                            <button className={`${styles.likeBtn} ${post.like.liked ? styles.active : ""}`}
-                                    disabled={likeMutation.isPending}
-                                    onClick={() => likeMutation.mutate({
-                                        postId: id as string,
-                                        wasLiked: post.like.liked
-                                    })
-                                    }>
-                                <Heart className={styles.likeIcon}
-                                       fill={post.like.liked ? '#FE7918' : 'none'}/>
-                            </button>
-                            <span
-                                style={{color: "grey"}}> {post.like.count > 0 && (
-                                post.like.count > 1
-                                    ? `${post.like.count} ont aimé`
-                                    : `${post.like.count} a aimé`
-                            )}</span>
+                            <div className={styles.footerContainer}>
+                                <button className={styles.commentBtn}>
+                                    <MessageSquare className={styles.commentIcon}/>
+                                </button>
+                                <span className={styles.commentSpan}>
+                                    {post.commentsCount}
+                                </span>
+                            </div>
+                            <div className={styles.footerContainer}>
+                                <button className={`${styles.likeBtn} ${post.like.liked ? styles.active : ""}`}
+                                        disabled={likeMutation.isPending}
+                                        onClick={() => likeMutation.mutate({
+                                            postId: id as string,
+                                            wasLiked: post.like.liked
+                                        })}>
+                                    <Heart className={styles.likeIcon}
+                                           fill={post.like.liked ? '#FE7918' : 'none'}/>
+                                </button>
+                                <span className={styles.likeSpan}> {post.like.count}</span>
+                            </div>
+                            <div className={styles.footerContainer}>
+                                <button className={`${styles.bookMarkBtn} ${post.like.liked ? styles.active : ""}`}
+                                        disabled={likeMutation.isPending}
+                                        onClick={() => likeMutation.mutate({
+                                            postId: id as string,
+                                            wasLiked: post.like.liked
+                                        })}>
+                                    <Bookmark className={styles.bookMarkIcon}
+                                              fill={post.like.liked ? '#fefa18' : 'none'}/>
+                                </button>
+                                <span className={styles.bookMarkSpan}> 0 </span>
+                            </div>
                         </div>
                     </div>
                     <div className={styles.comments}>

@@ -32,7 +32,7 @@ function RootHeader() {
                                         <img src={faker.image.avatar()} alt="avatar" className={styles.avatarImg}/>
                                     </div>
                                 </NavLink>
-                                <NavLink to={`bookmarks/${user.id}`} end={true}>
+                                <NavLink to={`bookmarks`} end={true}>
                                     {({isActive}) => (
                                         <Bookmark className={isActive ? styles.isActive : styles.link}/>
                                     )}
