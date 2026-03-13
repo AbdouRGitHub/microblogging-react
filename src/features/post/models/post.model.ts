@@ -4,6 +4,7 @@ export interface Post {
     id: string;
     content: string;
     like: Like;
+    bookmark: Bookmark;
     commentsCount: number;
     createdAt: string;
     updatedAt: string;
@@ -15,4 +16,9 @@ export interface Post {
 interface Like {
     count: number;
     liked: boolean;
+}
+
+interface Bookmark {
+    count: number;
+    bookmarked: boolean;
 }

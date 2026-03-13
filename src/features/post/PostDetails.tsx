@@ -10,6 +10,7 @@ import HeaderTitle from "../../shared/components/HeaderTitle.tsx";
 import {postQueries} from "./hooks/queries/post.ts";
 import PostEditor, {type FeedEditorInputs} from "./components/PostEditor.tsx";
 import {postMutations} from "./hooks/mutations/post.ts";
+import {bookmarkMutations} from "../bookmark/hooks/mutations/bookmark.ts";
 import {type SubmitHandler} from "react-hook-form";
 import {HTTPError} from "ky";
 import {useAuthModalStore} from "../auth/stores/authModalStore.ts";
@@ -48,6 +49,31 @@ function PostDetails() {
         },
         onSettled: (_data, _err, {postId}) => queryClient.invalidateQueries({queryKey: ['post', postId]}),
     });
+
+    const bookmarkMutation = useMutation({
+        ...bookmarkMutations.toggleBookmark(),
+        onMutate: async ({postId}) => {
+            await queryClient.cancelQueries({queryKey: ['post', postId]});
+
+            const previousPost = queryClient.getQueryData(['post', postId]);
+
+            queryClient.setQueryData(['post', postId], (old: Post) => ({
+                ...old,
+                bookmark: {
+                    bookmarked: !old.bookmark.bookmarked,
+                    count: old.bookmark.bookmarked ? old.bookmark.count - 1 : old.bookmark.count + 1
+                }
+            }));
+            return {previousPost};
+        },
+        onError: (error, {postId}, context) => {
+            queryClient.setQueryData(['post', postId], context?.previousPost);
+            if (error instanceof HTTPError && error.response.status === 403) {
+                open();
+            }
+        },
+        onSettled: (_data, _err, {postId}) => queryClient.invalidateQueries({queryKey: ['post', postId]}),
+    })
 
     const submitCommentMutation = useMutation({
         ...postMutations.postComment(id as string),
@@ -121,16 +147,17 @@ function PostDetails() {
                                 <span className={styles.likeSpan}> {post.like.count}</span>
                             </div>
                             <div className={styles.footerContainer}>
-                                <button className={`${styles.bookMarkBtn} ${post.like.liked ? styles.active : ""}`}
-                                        disabled={likeMutation.isPending}
-                                        onClick={() => likeMutation.mutate({
-                                            postId: id as string,
-                                            wasLiked: post.like.liked
-                                        })}>
+                                <button
+                                    className={`${styles.bookMarkBtn} ${post.bookmark.bookmarked ? styles.active : ""}`}
+                                    disabled={bookmarkMutation.isPending}
+                                    onClick={() => bookmarkMutation.mutate({
+                                        postId: id as string,
+                                        wasBookmarked: post.bookmark.bookmarked
+                                    })}>
                                     <Bookmark className={styles.bookMarkIcon}
-                                              fill={post.like.liked ? '#fefa18' : 'none'}/>
+                                              fill={post.bookmark.bookmarked ? '#1868fe' : 'none'}/>
                                 </button>
-                                <span className={styles.bookMarkSpan}> 0 </span>
+                                <span className={styles.bookMarkSpan}> {post?.bookmark.count} </span>
                             </div>
                         </div>
                     </div>
