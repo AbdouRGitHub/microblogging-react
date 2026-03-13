@@ -5,6 +5,9 @@ import styles from "./styles/SignUp.module.css"
 import {useMutation} from "@tanstack/react-query";
 import {HTTPError} from "ky";
 import {authQueries} from "./hooks/queries/auth.ts";
+import Button from "../../shared/components/Button.tsx";
+import SpinnerLoader from "../../shared/components/SpinnerLoader.tsx";
+import Input from "../../shared/components/Input.tsx";
 
 export type SignUpInputs = {
     username: string;
@@ -51,16 +54,17 @@ function SignUp() {
                         <div className={styles.form}>
                             {errorMessage && <div className={styles.errorContainer}><p>{errorMessage}</p></div>}
                             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-                                <input type="text" placeholder="nom d'utilisateur"
-                                       autoComplete="username"
-                                       className={styles.input} {...register("username", {required: true})}/>
-                                <input type="email" placeholder="adresse mail"
-                                       autoComplete="email"
-                                       className={styles.input} {...register("email", {required: true})}/>
-                                <input type="password" placeholder="mot de passe"
+                                <Input type="text" placeholder="nom d'utilisateur"
+                                       autoComplete="username" register={register("username", {required: true})}/>
+                                <Input type="email" placeholder="adresse mail"
+                                       autoComplete="email" register={register("email", {required: true})}/>
+                                <Input type="password" placeholder="mot de passe"
                                        autoComplete="current-password"
-                                       className={styles.input} {...register("password", {required: true})}/>
-                                <input type="submit" value="S'inscrire" className={styles.submitBtn} disabled={isPending}/>
+                                       register={register("password", {required: true})}/>
+                                <Button type="submit" className={styles.submitBtn}
+                                        disabled={isPending}>
+                                    {isPending ? <SpinnerLoader/> : "S'inscrire"}
+                                </Button>
                             </form>
                         </div>
                     </div>
