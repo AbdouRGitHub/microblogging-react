@@ -36,6 +36,37 @@
     width: 100%;
 }
 
+.ellipsisContainer {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+}
+
+.ellipsis {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+
+.ellipsisCtxMenu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 0.8rem;
+    text-align: left;
+    row-gap: 0.5rem;
+    padding: 0.5rem;
+    top: 100%;
+    background-color: var(--background-color);
+    border: 1px solid var(--foreground-color);
+    border-radius: 0.3rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+}
+
 .content {
     width: 100%;
     margin-top: 0.5rem;
