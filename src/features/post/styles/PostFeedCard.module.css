@@ -39,9 +39,6 @@
 .ellipsisContainer {
     position: relative;
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    height: 100%;
 }
 
 .ellipsis {
@@ -58,13 +55,50 @@
     font-size: 0.8rem;
     text-align: left;
     row-gap: 0.5rem;
-    padding: 0.5rem;
+    padding: 0.2rem;
     top: 100%;
+    right: 0;
+    min-width: max-content;
     background-color: var(--background-color);
     border: 1px solid var(--foreground-color);
     border-radius: 0.3rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     z-index: 10;
+}
+
+@media (max-width: 768px) {
+    .ellipsisCtxMenu {
+        font-size: 0.75rem;
+        padding: 0.4rem;
+        row-gap: 0.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .ellipsisCtxMenu {
+        font-size: 0.7rem;
+        padding: 0.3rem;
+        row-gap: 0.3rem;
+    }
+}
+
+.ellipsisCtxItem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    width: 100%;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.ellipsisCtxItem:hover {
+    background-color: var(--foreground-color);
+}
+
+.ellipsisCtxIcon {
+    width: 15px;
+    height: 15px;
 }
 
 .content {

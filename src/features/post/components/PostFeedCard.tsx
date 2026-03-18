@@ -2,7 +2,7 @@ import styles from "../styles/PostFeedCard.module.css";
 import {formatShortDate} from "../../../shared/utils/formatShortDate.ts";
 import {Link} from "react-router";
 import {faker} from "@faker-js/faker";
-import {Bookmark, Ellipsis, Pencil, Trash} from "lucide-react";
+import {Bookmark, Ellipsis, Trash} from "lucide-react";
 import {useState} from "react";
 
 function PostFeedCard({id, userId, content, likes, comments, username, createdAt, width = "80%"}: {
@@ -35,9 +35,8 @@ function PostFeedCard({id, userId, content, likes, comments, username, createdAt
                     {
                         ellipsisCtxMenu && (
                             <div className={styles.ellipsisCtxMenu}>
-                                    <span> <Pencil/> Modifier le post </span>
-                                    <span> <Bookmark/> Ajouter aux signets</span>
-                                    <span style={{ color: "red" }}> <Trash/> Supprimer le post</span>
+                                <div className={styles.ellipsisCtxItem}><Bookmark className={styles.ellipsisCtxIcon}/> <span>Ajouter aux signets</span></div>
+                                <div className={styles.ellipsisCtxItem} style={{color: "red"}}><Trash className={styles.ellipsisCtxIcon}/> <span>Supprimer le post</span></div>
                             </div>
                         )
                     }
