@@ -66,8 +66,8 @@ function PostDetails() {
             }));
             return {previousPost};
         },
-        onError: (error, {postId}, context) => {
-            queryClient.setQueryData(['post', postId], context?.previousPost);
+        onError: (error, {postId}, onMutateResult) => {
+            queryClient.setQueryData(['post', postId], onMutateResult?.previousPost);
             if (error instanceof HTTPError && error.response.status === 403) {
                 open();
             }
@@ -170,6 +170,7 @@ function PostDetails() {
                                 <PostFeedCard id={reply.id} userId={reply.account.id} key={reply.id}
                                               content={reply.content}
                                               likes={post.like.count}
+                                              bookmarked={post.bookmark.bookmarked}
                                               comments={post.commentsCount}
                                               username={reply.account.username}
                                               createdAt={reply.createdAt} width={"100%"}/>
